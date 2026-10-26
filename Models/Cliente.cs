@@ -1,6 +1,6 @@
 namespace UnstoreProjectADS.Models;
 
-public class Cliente
+public class Cliente : Usuario
 {
     public ICollection<Endereco> Enderecos { get; set; } = new List<Endereco>();
     public ICollection<AvaliacaoProduto> Avaliacoes { get; set; } = new List<AvaliacaoProduto>();
