@@ -19,7 +19,8 @@ public class AppDbContext : DbContext
     public DbSet<MotivoReclamacao> MotivosReclamacoes { get; set; }
     public DbSet<Conversa> Conversas { get; set; }
     public DbSet<Mensagem> Mensagens { get; set; }
-    
+
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite("Data Source=app.db");

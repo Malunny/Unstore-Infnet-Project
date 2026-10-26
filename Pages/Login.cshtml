@@ -1,0 +1,17 @@
+@page
+@using Microsoft.AspNetCore.Identity.Data
+@model LoginPage
+@{
+    ViewData["Title"] = "Unstore - Login";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Login</h1>
+    <form method="post">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" asp-for="Form.Email"/>
+        <label for="Password">Password</label>
+        <input type="password" id="Password" asp-for="Form.Password"/>
+        <button type="submit">Login</button>
+    </form>
+</div>

@@ -1,0 +1,34 @@
+@page
+@using Microsoft.AspNetCore.Identity.Data
+@model RegisterPage
+@{
+    ViewData["Title"] = "Unstore - Register";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Login</h1>
+    <form method="post" style="display: flex; flex-direction: column; text-align: left;">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" asp-for="Form.Email"/>
+        <label for="Password">Password</label>
+        <input type="password" id="Password" asp-for="Form.Senha"/>
+        <label for="Nome">Nome</label>
+        <input type="text" id="Nome" asp-for="Form.Nome"/>
+        
+        <h3>Endereço</h3>
+        <label for="Estado">Estado</label>
+        <input type="text" id="Estado" asp-for="Form.Estado"/>
+        <label for="Municipio">Município</label>
+        <input type="text" id="Municipio" asp-for="Form.Municipio"/>
+        <label for="Rua">Rua</label>
+        <input type="text" id="Rua" asp-for="Form.Rua"/>
+        <label for="Numero">Numero</label>
+        <input type="text" id="Numero" asp-for="Form.Numero"/>
+        <label for="Complemento">Complemento</label>
+        <input type="text" id="Complemento" asp-for="Form.Complemento"/>
+        <label for="CEP">CEP</label>
+        <input type="text" id="CEP" asp-for="Form.CEP"/>
+        
+        <button type="submit">Register</button>
+    </form>
+</div>
