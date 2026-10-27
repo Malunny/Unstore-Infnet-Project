@@ -5,15 +5,40 @@
 }
 
 <div class="display-flex-columns paper-1">
-    <ul>
-        @foreach (var produto in Model.Produtos)
-        {
-            <li>
-                <div>
-                    <h5>@produto.Nome</h5>
-                    <p>@produto.Valor</p>
-                </div>
-            </li>
-        }
-    </ul>
+    <div>
+        <div class="product-displayer">
+            <div class="product-displayer-content">
+                @foreach (var produto in Model.Produtos)
+                {
+                    <div class="product-display">
+                        <h5>@produto.Nome</h5>
+                        <p>R$ @produto.Valor.ToString("F2")</p>
+                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <footer class="flex-row" style="display: flex; margin-left: auto;">
+        <p style="vertical-align: center;">
+            Página: @Model.Page
+        </p>
+        <div style="display: flex; align-items: center; margin-left: 1em;">
+            <form method="post" asp-page-handler="ReturnPage">
+                <button type="submit" class="button">
+                    <b>
+                        -
+                    </b>
+                </button>
+            </form>
+            <form method="post" asp-page-handler="AddPage">
+                <button type="submit" class="button">
+                    <b>
+                        +
+                    </b>
+                </button>
+            </form>
+        </div>
+    </footer>
 </div>
