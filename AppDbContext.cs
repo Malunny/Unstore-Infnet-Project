@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Funcionario> Funcionarios { get; set; }
     public DbSet<Cargo> Cargos { get; set; }
+    public DbSet<Carrinho> Carrinhos { get; set; }
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<DescontoProduto> DescontosProdutos { get; set; }
     public DbSet<Compra> Compras { get; set; }
@@ -46,6 +47,15 @@ public class AppDbContext : DbContext
             .WithMany(c => c.Funcionarios)
             .HasForeignKey(f => f.CargoId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Cliente>()
+            .HasOne(cliente => cliente.Carrinho)
+            .WithOne(carrinho => carrinho.Cliente)
+            .HasForeignKey<Cliente>(cliente => cliente.CarrinhoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Carrinho>()
+            .HasMany(carrinho => carrinho.Produtos);
 
         modelBuilder.Entity<ProdutoCompra>()
             .HasKey(pc => new { pc.ProdutoId, pc.CompraId });

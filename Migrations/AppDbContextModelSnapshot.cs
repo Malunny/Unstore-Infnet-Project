@@ -87,6 +87,17 @@ namespace UnstoreProjectADS.Migrations
                     b.ToTable("Cargos");
                 });
 
+            modelBuilder.Entity("UnstoreProjectADS.Models.Carrinho", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carrinhos");
+                });
+
             modelBuilder.Entity("UnstoreProjectADS.Models.Compra", b =>
                 {
                     b.Property<int>("Id")
@@ -284,6 +295,9 @@ namespace UnstoreProjectADS.Migrations
 
                     SqlitePropertyBuilderExtensions.UseAutoincrement(b.Property<int>("Id"));
 
+                    b.Property<int?>("CarrinhoId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("DescontoProdutoId")
                         .HasColumnType("INTEGER");
 
@@ -302,6 +316,8 @@ namespace UnstoreProjectADS.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarrinhoId");
 
                     b.HasIndex("DescontoProdutoId");
 
@@ -395,6 +411,12 @@ namespace UnstoreProjectADS.Migrations
             modelBuilder.Entity("UnstoreProjectADS.Models.Cliente", b =>
                 {
                     b.HasBaseType("UnstoreProjectADS.Models.Usuario");
+
+                    b.Property<int>("CarrinhoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("CarrinhoId")
+                        .IsUnique();
 
                     b.HasDiscriminator().HasValue("Cliente");
                 });
@@ -528,6 +550,10 @@ namespace UnstoreProjectADS.Migrations
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Produto", b =>
                 {
+                    b.HasOne("UnstoreProjectADS.Models.Carrinho", null)
+                        .WithMany("Produtos")
+                        .HasForeignKey("CarrinhoId");
+
                     b.HasOne("UnstoreProjectADS.Models.DescontoProduto", "Desconto")
                         .WithMany("Produtos")
                         .HasForeignKey("DescontoProdutoId");
@@ -573,6 +599,17 @@ namespace UnstoreProjectADS.Migrations
                     b.Navigation("MotivoReclamacao");
                 });
 
+            modelBuilder.Entity("UnstoreProjectADS.Models.Cliente", b =>
+                {
+                    b.HasOne("UnstoreProjectADS.Models.Carrinho", "Carrinho")
+                        .WithOne("Cliente")
+                        .HasForeignKey("UnstoreProjectADS.Models.Cliente", "CarrinhoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carrinho");
+                });
+
             modelBuilder.Entity("UnstoreProjectADS.Models.Funcionario", b =>
                 {
                     b.HasOne("UnstoreProjectADS.Models.Cargo", "Cargo")
@@ -587,6 +624,14 @@ namespace UnstoreProjectADS.Migrations
             modelBuilder.Entity("UnstoreProjectADS.Models.Cargo", b =>
                 {
                     b.Navigation("Funcionarios");
+                });
+
+            modelBuilder.Entity("UnstoreProjectADS.Models.Carrinho", b =>
+                {
+                    b.Navigation("Cliente")
+                        .IsRequired();
+
+                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Compra", b =>
