@@ -68,3 +68,46 @@ public class AppDbContext : DbContext
         
     }
 }
+
+public enum CargosNome
+{
+    AdministradorSistema,
+    AdministradorEstoque,
+    Repositor,
+    Financeiro,
+    Vendas,
+    SAC,
+    Logistica
+}
+
+public static class CargosNomeCriador
+{
+    public static string PegarNomeCargo(this CargosNome cargo)
+    {
+        switch (cargo)
+        {
+            case CargosNome.AdministradorSistema:
+                return "AdministradorSistema";
+                break;
+            case CargosNome.AdministradorEstoque:
+                return "AdministradorEstoque";
+                break;
+            case CargosNome.Repositor:
+                return "Repositor";
+                break;
+            case CargosNome.Financeiro:
+                return "Financeiro";
+                break;
+            case CargosNome.SAC:
+                return "SAC";
+            case CargosNome.Vendas:
+                return "Vendas";
+                break;
+            case CargosNome.Logistica:
+                return "Logistica";
+                break;
+            default:
+                return "";
+        }
+    }
+}
