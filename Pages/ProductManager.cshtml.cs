@@ -17,7 +17,6 @@ public class ProductManagerPage : PageModel
     public async Task OnGetAsync(int id, [FromServices] AppDbContext appDbContext)
     {
         Id = id;
-        Console.WriteLine(id);
         if (id == 0) 
         {
             Creating = true;
@@ -42,11 +41,10 @@ public class ProductManagerPage : PageModel
         if (Produto.Id == 0)
         {
             await appDbContext.Produtos.AddAsync(Produto);
-            Console.WriteLine("oi");
+            ;
         }
 
         await appDbContext.SaveChangesAsync();
-        Console.WriteLine(Produto.Id);
         
         return RedirectToPage("/Products");
     }
