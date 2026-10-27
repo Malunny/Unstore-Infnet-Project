@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UnstoreProjectADS.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,18 @@ namespace UnstoreProjectADS.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cargos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carrinhos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carrinhos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,7 +66,7 @@ namespace UnstoreProjectADS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Usuario",
+                name: "Usuarios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -62,18 +74,25 @@ namespace UnstoreProjectADS.Migrations
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Senha = table.Column<string>(type: "TEXT", nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
+                    TipoUsuario = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
+                    CarrinhoId = table.Column<int>(type: "INTEGER", nullable: true),
                     CargoId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Usuario_Cargos_CargoId",
+                        name: "FK_Usuarios_Cargos_CargoId",
                         column: x => x.CargoId,
                         principalTable: "Cargos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Carrinhos_CarrinhoId",
+                        column: x => x.CarrinhoId,
+                        principalTable: "Carrinhos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,11 +105,17 @@ namespace UnstoreProjectADS.Migrations
                     Descricao = table.Column<string>(type: "TEXT", nullable: false),
                     Valor = table.Column<decimal>(type: "TEXT", nullable: false),
                     QuantidadeEstoque = table.Column<int>(type: "INTEGER", nullable: false),
-                    DescontoProdutoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    DescontoProdutoId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CarrinhoId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Produtos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Produtos_Carrinhos_CarrinhoId",
+                        column: x => x.CarrinhoId,
+                        principalTable: "Carrinhos",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Produtos_DescontosProdutos_DescontoProdutoId",
                         column: x => x.DescontoProdutoId,
@@ -111,9 +136,9 @@ namespace UnstoreProjectADS.Migrations
                 {
                     table.PrimaryKey("PK_Compras", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Compras_Usuario_ClienteId",
+                        name: "FK_Compras_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -130,9 +155,9 @@ namespace UnstoreProjectADS.Migrations
                 {
                     table.PrimaryKey("PK_Conversas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Conversas_Usuario_FuncionarioId",
+                        name: "FK_Conversas_Usuarios_FuncionarioId",
                         column: x => x.FuncionarioId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id");
                 });
 
@@ -154,9 +179,9 @@ namespace UnstoreProjectADS.Migrations
                 {
                     table.PrimaryKey("PK_Enderecos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enderecos_Usuario_ClienteId",
+                        name: "FK_Enderecos_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -182,9 +207,9 @@ namespace UnstoreProjectADS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reclamacoes_Usuario_ClienteId",
+                        name: "FK_Reclamacoes_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -217,9 +242,9 @@ namespace UnstoreProjectADS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AvaliacoesProdutos_Usuario_ClienteId",
+                        name: "FK_AvaliacoesProdutos_Usuarios_ClienteId",
                         column: x => x.ClienteId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -267,9 +292,9 @@ namespace UnstoreProjectADS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ConversaUsuario_Usuario_ParticipantesId",
+                        name: "FK_ConversaUsuario_Usuarios_ParticipantesId",
                         column: x => x.ParticipantesId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -295,9 +320,9 @@ namespace UnstoreProjectADS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Mensagens_Usuario_RemetenteId",
+                        name: "FK_Mensagens_Usuarios_RemetenteId",
                         column: x => x.RemetenteId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -330,9 +355,9 @@ namespace UnstoreProjectADS.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Encomendas_Usuario_FuncionarioId",
+                        name: "FK_Encomendas_Usuarios_FuncionarioId",
                         column: x => x.FuncionarioId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -399,6 +424,11 @@ namespace UnstoreProjectADS.Migrations
                 column: "RemetenteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Produtos_CarrinhoId",
+                table: "Produtos",
+                column: "CarrinhoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Produtos_DescontoProdutoId",
                 table: "Produtos",
                 column: "DescontoProdutoId");
@@ -419,9 +449,15 @@ namespace UnstoreProjectADS.Migrations
                 column: "MotivoReclamacaoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuario_CargoId",
-                table: "Usuario",
+                name: "IX_Usuarios_CargoId",
+                table: "Usuarios",
                 column: "CargoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_CarrinhoId",
+                table: "Usuarios",
+                column: "CarrinhoId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -461,13 +497,16 @@ namespace UnstoreProjectADS.Migrations
                 name: "MotivosReclamacoes");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "DescontosProdutos");
 
             migrationBuilder.DropTable(
                 name: "Cargos");
+
+            migrationBuilder.DropTable(
+                name: "Carrinhos");
         }
     }
 }

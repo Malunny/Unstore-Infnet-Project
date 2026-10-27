@@ -7,5 +7,5 @@ public class Cliente : Usuario
     public ICollection<Reclamacao> Reclamacoes { get; set; } = new List<Reclamacao>();
     public ICollection<Compra> Compras { get; set; } = new List<Compra>();
     public int CarrinhoId { get; set; }
-    public Carrinho Carrinho { get; set; }
+    public Carrinho Carrinho { get; set; } = new();
 }

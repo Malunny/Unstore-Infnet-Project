@@ -5,6 +5,7 @@ namespace UnstoreProjectADS;
 
 public class AppDbContext : DbContext
 {
+    public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Funcionario> Funcionarios { get; set; }
     public DbSet<Cargo> Cargos { get; set; }
@@ -29,7 +30,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Usuario>().Property(u => u.Id).UseAutoincrement();
         modelBuilder.Entity<Cargo>().Property(c => c.Id).UseAutoincrement();
         modelBuilder.Entity<Produto>().Property(p => p.Id).UseAutoincrement();
         modelBuilder.Entity<DescontoProduto>().Property(d => d.Id).UseAutoincrement();
@@ -48,6 +48,12 @@ public class AppDbContext : DbContext
             .HasForeignKey(f => f.CargoId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<Usuario>()
+            .HasDiscriminator<string>("TipoUsuario")
+            .HasValue<Usuario>("Usuario")
+                .HasValue<Funcionario>("Funcionario")
+                .HasValue<Cliente>("Cliente");
+        
         modelBuilder.Entity<Cliente>()
             .HasOne(cliente => cliente.Carrinho)
             .WithOne(carrinho => carrinho.Cliente)

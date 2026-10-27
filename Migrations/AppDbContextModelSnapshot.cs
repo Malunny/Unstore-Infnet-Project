@@ -380,13 +380,6 @@ namespace UnstoreProjectADS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    SqlitePropertyBuilderExtensions.UseAutoincrement(b.Property<int>("Id"));
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -399,11 +392,16 @@ namespace UnstoreProjectADS.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("TipoUsuario")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
+                    b.ToTable("Usuarios");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
+                    b.HasDiscriminator<string>("TipoUsuario").HasValue("Usuario");
 
                     b.UseTphMappingStrategy();
                 });
