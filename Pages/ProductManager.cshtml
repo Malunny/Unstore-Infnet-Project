@@ -1,0 +1,25 @@
+@page
+@model ProductManagerPage
+@{
+    ViewData["Title"] = "Unstore - Editando produto";
+}
+
+<div class="display-flex-columns paper-1">
+    <h1>Administrador de produto</h1>
+    @if (Model.Creating)
+    {
+        <h2>Criando produto</h2>
+    }
+    <form method="post" class="display-flex-columns paper-2">
+        <label for="Nome">Nome</label>
+        <input type="text" id="Nome" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("AdministradorSistema"))" asp-for="Produto.Nome"/>
+        <label for="Descricao">Descrição</label>
+        <input type="text" id="Descricao" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("AdministradorSistema"))" asp-for="Produto.Descricao"/>
+        <label for="Valor">Valor</label>
+        <input type="number" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("Financeiro") && !Model.User.IsInRole("AdministradorSistema"))" id="Valor" asp-for="Produto.Valor"/>
+        <label for="QuantidadeEstoque">QuantidadeEstoque</label>
+        <input type="number" readonly="@(!Model.User.IsInRole("AdministradorEstoque") && !Model.User.IsInRole("AdministradorSistema"))" id="QuantidadeEstoque" asp-for="Produto.QuantidadeEstoque"/>
+        <button type="submit">Salvar</button>
+    </form>
+</div>
+

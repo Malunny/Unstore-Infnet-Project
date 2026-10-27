@@ -43,6 +43,14 @@ input, button {
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.16);
 }
 
+.paper-2 {
+  background-color: #fff;
+  padding: 1em;
+  
+  border: 1px solid black;
+  border-radius: 0.7em;
+}
+
 .display-flex-columns {
   display: flex;
   flex-wrap: wrap;
