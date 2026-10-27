@@ -21,6 +21,12 @@ body {
   margin-bottom: 60px;
 }
 
+input, button {
+  border-radius: 0.7em;
+  margin: 0.2em 0 0.2em 0;
+  padding: 0.2em 0.4em 0.2em 0.4em;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
@@ -28,4 +34,21 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.paper-1 {
+  background-color: rgba(0, 0, 0, 0.015);
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.16);
+}
+
+.display-flex-columns {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.last-item {
+  margin-left: auto;
 }

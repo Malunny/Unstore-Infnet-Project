@@ -26,12 +26,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Register">Register</a>
-                        </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <div class="last-item" style="display: flex;">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Register">Register</a>
+                                </li>
+                            </div>
+                        }
+                        else
+                        {   
+                            <form method="post" asp-page="/Logout" class="last-item">
+                                <button type="submit">Sair da sessão</button>
+                            </form>
+                        }
                     </ul>
                 </div>
             </div>
