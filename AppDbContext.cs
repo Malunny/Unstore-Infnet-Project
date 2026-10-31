@@ -81,7 +81,23 @@ public class AppDbContext : DbContext
             .WithOne(c => c.Encomenda)
             .HasForeignKey<Encomenda>(e => e.CompraId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
+        modelBuilder.Entity<Funcionario>()
+            .HasMany(f => f.PedidosDeReposicao)
+            .WithOne(p => p.CriadorDoPedido)
+            .HasForeignKey(p => p.CriadorDoPedidoId);
+
+        modelBuilder.Entity<PedidoDeReposicao>()
+            .HasMany(p => p.ProdutosApontados);
+
+        modelBuilder.Entity<Conversa>().HasOne(c => c.Cliente).WithMany(u => u.Conversas)
+            .HasForeignKey(c => c.ClienteId);
+        modelBuilder.Entity<Conversa>().HasOne(c => c.Funcionario).WithMany(u => u.Conversas)
+            .HasForeignKey(c => c.FuncionarioId);
+
+        modelBuilder.Entity<Conversa>().HasMany(c => c.Mensagens).WithOne(m => m.Conversa)
+            .HasForeignKey(m => m.ConversaId);
+
     }
 }
 
