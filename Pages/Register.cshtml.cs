@@ -53,6 +53,7 @@ public class RegisterPage : PageModel
         }
         
         cliente.Enderecos.Add(endereco);
+        cliente.Carrinho = new Carrinho();
 
         await dbContext.Clientes.AddAsync(cliente);
         await dbContext.SaveChangesAsync();

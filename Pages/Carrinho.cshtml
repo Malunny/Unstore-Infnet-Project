@@ -1,0 +1,35 @@
+@page
+@model CarrinhoPage
+
+@{
+    ViewData["Title"] = "Unstore - Carrinho";
+}
+
+@if (Model.Cliente != null)
+{
+    <div class="paper-1">
+        <h1>Seu Carrinho</h1>
+        <div class="product-displayer">
+            <div class="product-displayer-content">
+                @foreach (var produto in Model.Carrinho.Produtos)
+                {
+                    <div class="product-display">
+                        <h5 class="product-title">
+                            <a asp-area="" asp-page="/Produto" asp-route-id="@produto.Id">
+                                @produto.Nome
+                            </a>
+                        </h5>
+                        <p>R$ @produto.Valor.ToString("F2")</p>
+                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="paper-1">
+        <h1>Cliente não encontrado</h1>
+    </div>
+}

@@ -1,0 +1,45 @@
+@page "/produto/{id:int}"
+@model ProdutoPage
+
+@{
+    ViewData["Title"] = $"Unstore - {Model?.Produto?.Nome ?? "Não encontrado"}";
+}
+
+@if (Model.Produto != null)
+{
+    <div class="paper-1">
+        <h1>@Model.Produto.Nome</h1>
+        <div style="display: flex;">
+            <div style="width: 50%;">
+                <h3>Descrição</h3>
+                <p>
+                    @Model.Produto.Descricao;
+                </p>
+            </div>
+            <div>
+                <h3>Preço</h3>
+                <p>
+                    R$ @Model.Produto.Valor.ToString("F2");
+                </p>
+            </div>
+        </div>
+        <div>
+            <form method="post" asp-page-handler="AdicionarCarrinho">
+                <button type="submit">
+                    Adicionar no carrinho
+                </button>
+            </form>
+            <form method="post" asp-page-handler="Comprar">
+                <button type="submit">
+                    Comprar
+                </button>
+            </form>
+        </div>
+    </div>   
+}
+else
+{
+    <div class="paper-1">
+        <h1>Produto não encontrado!</h1>
+    </div>
+}

@@ -24,8 +24,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Products">Products</a>
                         </li>
+                        @if (User.IsInRole("Cliente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Carrinho">Meu Carrinho</a>
+                            </li>
+                        }
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <div class="last-item" style="display: flex;">

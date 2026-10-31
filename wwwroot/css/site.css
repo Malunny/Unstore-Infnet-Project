@@ -60,10 +60,15 @@ input, button {
 
 .product-display {
   border: 1px solid black;
+  background: rgba(189, 204, 230, 0.3);
   padding: 0.2em;
   margin: 0.2em;
   width: 20em;
   height: 10em;
+}
+
+.product-title {
+  font-family: "Copperplate";
 }
 
 .product-displayer {

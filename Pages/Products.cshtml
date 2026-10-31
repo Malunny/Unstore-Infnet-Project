@@ -11,7 +11,11 @@
                 @foreach (var produto in Model.Produtos)
                 {
                     <div class="product-display">
-                        <h5>@produto.Nome</h5>
+                        <h5 class="product-title">
+                            <a asp-area="" asp-page="/Produto" asp-route-id="@produto.Id">
+                                @produto.Nome
+                            </a>
+                        </h5>
                         <p>R$ @produto.Valor.ToString("F2")</p>
                         <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
                     </div>
