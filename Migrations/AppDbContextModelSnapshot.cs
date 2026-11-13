@@ -18,19 +18,19 @@ namespace UnstoreProjectADS.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.14");
 
-            modelBuilder.Entity("ConversaUsuario", b =>
+            modelBuilder.Entity("PedidoDeReposicaoProduto", b =>
                 {
-                    b.Property<int>("ConversasId")
+                    b.Property<int>("PedidosDeReposicaoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ParticipantesId")
+                    b.Property<int>("ProdutosApontadosId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ConversasId", "ParticipantesId");
+                    b.HasKey("PedidosDeReposicaoId", "ProdutosApontadosId");
 
-                    b.HasIndex("ParticipantesId");
+                    b.HasIndex("ProdutosApontadosId");
 
-                    b.ToTable("ConversaUsuario");
+                    b.ToTable("PedidoDeReposicaoProduto");
                 });
 
             modelBuilder.Entity("UnstoreProjectADS.Models.AvaliacaoProduto", b =>
@@ -127,10 +127,15 @@ namespace UnstoreProjectADS.Migrations
 
                     SqlitePropertyBuilderExtensions.UseAutoincrement(b.Property<int>("Id"));
 
-                    b.Property<int?>("FuncionarioId")
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FuncionarioId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.HasIndex("FuncionarioId");
 
@@ -287,6 +292,22 @@ namespace UnstoreProjectADS.Migrations
                     b.ToTable("MotivosReclamacoes");
                 });
 
+            modelBuilder.Entity("UnstoreProjectADS.Models.PedidoDeReposicao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CriadorDoPedidoId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CriadorDoPedidoId");
+
+                    b.ToTable("PedidoDeReposicao");
+                });
+
             modelBuilder.Entity("UnstoreProjectADS.Models.Produto", b =>
                 {
                     b.Property<int>("Id")
@@ -431,17 +452,17 @@ namespace UnstoreProjectADS.Migrations
                     b.HasDiscriminator().HasValue("Funcionario");
                 });
 
-            modelBuilder.Entity("ConversaUsuario", b =>
+            modelBuilder.Entity("PedidoDeReposicaoProduto", b =>
                 {
-                    b.HasOne("UnstoreProjectADS.Models.Conversa", null)
+                    b.HasOne("UnstoreProjectADS.Models.PedidoDeReposicao", null)
                         .WithMany()
-                        .HasForeignKey("ConversasId")
+                        .HasForeignKey("PedidosDeReposicaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UnstoreProjectADS.Models.Usuario", null)
+                    b.HasOne("UnstoreProjectADS.Models.Produto", null)
                         .WithMany()
-                        .HasForeignKey("ParticipantesId")
+                        .HasForeignKey("ProdutosApontadosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -484,9 +505,21 @@ namespace UnstoreProjectADS.Migrations
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Conversa", b =>
                 {
-                    b.HasOne("UnstoreProjectADS.Models.Funcionario", null)
-                        .WithMany("ConversasParticipadas")
-                        .HasForeignKey("FuncionarioId");
+                    b.HasOne("UnstoreProjectADS.Models.Cliente", "Cliente")
+                        .WithMany("Conversas")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UnstoreProjectADS.Models.Funcionario", "Funcionario")
+                        .WithMany("Conversas")
+                        .HasForeignKey("FuncionarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Encomenda", b =>
@@ -544,6 +577,17 @@ namespace UnstoreProjectADS.Migrations
                     b.Navigation("Conversa");
 
                     b.Navigation("Remetente");
+                });
+
+            modelBuilder.Entity("UnstoreProjectADS.Models.PedidoDeReposicao", b =>
+                {
+                    b.HasOne("UnstoreProjectADS.Models.Funcionario", "CriadorDoPedido")
+                        .WithMany("PedidosDeReposicao")
+                        .HasForeignKey("CriadorDoPedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CriadorDoPedido");
                 });
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Produto", b =>
@@ -679,6 +723,8 @@ namespace UnstoreProjectADS.Migrations
 
                     b.Navigation("Compras");
 
+                    b.Navigation("Conversas");
+
                     b.Navigation("Enderecos");
 
                     b.Navigation("Reclamacoes");
@@ -686,7 +732,9 @@ namespace UnstoreProjectADS.Migrations
 
             modelBuilder.Entity("UnstoreProjectADS.Models.Funcionario", b =>
                 {
-                    b.Navigation("ConversasParticipadas");
+                    b.Navigation("Conversas");
+
+                    b.Navigation("PedidosDeReposicao");
                 });
 #pragma warning restore 612, 618
         }

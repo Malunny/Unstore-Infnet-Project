@@ -88,7 +88,8 @@ public class AppDbContext : DbContext
             .HasForeignKey(p => p.CriadorDoPedidoId);
 
         modelBuilder.Entity<PedidoDeReposicao>()
-            .HasMany(p => p.ProdutosApontados);
+            .HasMany(p => p.ProdutosApontados)
+            .WithMany(p => p.PedidosDeReposicao);
 
         modelBuilder.Entity<Conversa>().HasOne(c => c.Cliente).WithMany(u => u.Conversas)
             .HasForeignKey(c => c.ClienteId);

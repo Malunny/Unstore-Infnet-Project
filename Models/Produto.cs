@@ -13,4 +13,5 @@ public class Produto
 
     public ICollection<AvaliacaoProduto> Avaliacoes { get; set; } = new List<AvaliacaoProduto>();
     public ICollection<ProdutoCompra> ProdutosCompra { get; set; } = new List<ProdutoCompra>();
+    public ICollection<PedidoDeReposicao> PedidosDeReposicao { get; set; } = new List<PedidoDeReposicao>();
 }
