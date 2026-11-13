@@ -18,58 +18,20 @@ public class RegisterPage : PageModel
         
     }
 
-    public async Task<IActionResult> OnPostAsync([FromServices] AppDbContext dbContext,
-        [FromServices] JwtTokenService tokenService)
+    public async Task<IActionResult> OnPostAsync([FromServices] ServicoConta servicoConta)
     {
-        Cliente cliente = new();
-        
-        cliente.Nome = Form.Nome;
-        cliente.Email = Form.Email;
-        cliente.Senha = Form.Senha;
+        var usuarioCriado = await servicoConta.Registrar(Form);
 
-        if (cliente.Nome is null || cliente.Email is null || cliente.Senha is null)
-        {
-            IsInvalid = true;
+        if (!usuarioCriado)
             return BadRequest();
-        }
 
-        var endereco = new Endereco();
+        var identidadeUsuario = await servicoConta.IniciarSessao(Form.Email, Form.Senha);
 
-        endereco.Rua = Form.Rua;
-        endereco.CEP = Form.CEP;
-        endereco.Complemento = Form.Complemento;
-        endereco.Estado = Form.Estado;
-        endereco.Municipio = Form.Municipio;
-        endereco.Numero = Form.Numero;
+        if (identidadeUsuario == null)
+            return BadRequest("Alguma problema ocorreu ao entrar na conta, tente iniciar sessão com email e senha.");
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identidadeUsuario);
         
-        if (endereco.Estado is null || endereco.Municipio is null 
-                                    || endereco.Rua is null ||
-                                    endereco.Complemento is null ||
-                                    endereco.CEP is null ||
-                                    endereco.Numero < 1)
-        {
-            IsInvalid = true;
-            return BadRequest();
-        }
-        
-        cliente.Enderecos.Add(endereco);
-        cliente.Carrinho = new Carrinho();
-
-        await dbContext.Clientes.AddAsync(cliente);
-        await dbContext.SaveChangesAsync();
-        
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Email, Form.Email),
-        };
-        
-        claims.Add(new Claim(ClaimTypes.Role, "Cliente"));
-
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-        
-        return RedirectToPage("/Index");
+        return RedirectToPage("./Index");
     }
 }
