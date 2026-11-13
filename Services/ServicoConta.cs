@@ -27,6 +27,9 @@ public class ServicoConta
         if (usuario == null)
             return null;
 
+        if (usuario.Senha != password)
+            return null;
+
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Email, email),
