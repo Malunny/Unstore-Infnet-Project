@@ -1,4 +1,4 @@
-@page "/produto/{id:int}"
+@page "/produto/{produtoId:int}"
 @model ProdutoPage
 
 @{
@@ -28,6 +28,9 @@
                 <button type="submit">
                     Adicionar no carrinho
                 </button>
+                <span class="alert-danger">
+                    @TempData["ProblemaAdicionarCarrinho"]
+                </span>
             </form>
             <form method="post" asp-page-handler="Comprar">
                 <button type="submit">

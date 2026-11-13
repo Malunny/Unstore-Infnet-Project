@@ -33,6 +33,7 @@ public class ServicoConta
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Email, email),
+            new Claim(ClaimTypes.Name, email),
         };
 
         var nomeCargo = "Cliente";

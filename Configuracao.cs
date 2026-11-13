@@ -9,6 +9,7 @@ public static class Configuracao
     public static void AdicionarServicos(this WebApplicationBuilder construtor)
     {
         construtor.Services.AddTransient<ServicoConta>();
+        construtor.Services.AddTransient<ServicoProduto>();
     }
 
     public static void AlimentarVariaveisDeAmbiente(this WebApplicationBuilder construtor)
