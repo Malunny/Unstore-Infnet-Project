@@ -21,17 +21,16 @@ public class ProdutoPage : PageModel
     public async Task<IActionResult> OnPostAdicionarCarrinhoAsync([FromServices] AppDbContext appDbContext)
     {
         var usuarioEmail = User.FindFirstValue(ClaimTypes.Email);
-        Console.WriteLine("\n \n \n OI \n \n \n");
+        
         if (usuarioEmail == null)
             return Redirect("/Login");
-        Console.WriteLine("\n \n \n OI \n \n \n");
+        
         var cliente = await appDbContext.Clientes
             .Include(u => u.Carrinho)
             .FirstOrDefaultAsync(u => u.Email == usuarioEmail);
         
         if (cliente == null)
             return Redirect("/Login");
-        Console.WriteLine("\n \n \n OI \n \n \n");
 
         if (Produto == null)
             return Page();
