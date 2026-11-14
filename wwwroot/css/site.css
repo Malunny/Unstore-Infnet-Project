@@ -98,6 +98,21 @@ input, button {
   flex-direction: column;
 }
 
+.display-flex-rows {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.user-account-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  
+  justify-content: center;
+  align-items: center;
+}
+
 .last-item {
   margin-left: auto;
 }

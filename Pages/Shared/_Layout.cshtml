@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="overflow-x: scroll;">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">UnstoreProjectADS</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -55,11 +56,21 @@
                         }
                         else
                         {   
-                            <form method="post" asp-page="/PaginaSairDeSessao" class="last-item">
-                                <button type="submit">Sair da sessão</button>
-                            </form>
+                            <div class="last-item user-account-container">
+                                <ul style="display: flex; flex-direction: row; list-style: none; gap: 0.5em; align-items: center;">
+                                    <li>@(User?.FindFirst(ClaimTypes.Email)?.Value ?? "Sem sessão")</li>
+                                    @foreach (var role in User?.FindAll(ClaimTypes.Role) ?? [])
+                                    {
+                                        <li>| @role.Value</li>
+                                    }
+                                    <li>
+                                        <form method="post" asp-page="/PaginaSairDeSessao" >
+                                            <button type="submit">Sair da sessão</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         }
-                        
                     </ul>
                 </div>
             </div>
