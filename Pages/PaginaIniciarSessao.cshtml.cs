@@ -10,7 +10,7 @@ using UnstoreProjectADS.Services;
 
 namespace UnstoreProjectADS.Pages;
 
-public class LoginPage : PageModel
+public class PaginaIniciarSessao : PageModel
 {
     [BindProperty]
     public LoginRequest Form { get; set; }

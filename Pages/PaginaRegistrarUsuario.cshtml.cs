@@ -9,7 +9,7 @@ using UnstoreProjectADS.Services;
 
 namespace UnstoreProjectADS.Pages;
 
-public class RegisterPage : PageModel
+public class PaginaRegistrarUsuario : PageModel
 {
     [BindProperty] public bool IsInvalid { get; set; } = false;
     [BindProperty] public RegisterRequest Form { get; set; }

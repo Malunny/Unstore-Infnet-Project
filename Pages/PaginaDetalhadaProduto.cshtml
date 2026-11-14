@@ -5,7 +5,7 @@
     ViewData["Title"] = $"Unstore - {Model?.Produto?.Nome ?? "Não encontrado"}";
 }
 
-@if (Model.Produto != null)
+@if (Model?.Produto != null)
 {
     <div class="paper-1">
         <h1>@Model.Produto.Nome</h1>
@@ -23,15 +23,18 @@
                 </p>
             </div>
         </div>
-        <div>
+        <div class="flex-row">
             <form method="post" asp-page-handler="AdicionarCarrinho">
                 <button type="submit">
                     Adicionar no carrinho
                 </button>
-                <span class="alert-danger">
-                    @TempData["ProblemaAdicionarCarrinho"]
-                </span>
             </form>
+            <span class="alert-danger">
+                @TempData["ProblemaAdicionarCarrinho"]
+            </span>
+            <span class="alert-success">
+                @TempData["StatusCarrinho"]
+            </span>
             <form method="post" asp-page-handler="Comprar">
                 <button type="submit">
                     Comprar

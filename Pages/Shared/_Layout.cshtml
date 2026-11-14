@@ -24,28 +24,36 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Products">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutos">Products</a>
                         </li>
+                        @if (User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.Vendas)) || 
+                             User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.AdministradorSistema)) ||
+                             User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.AdministradorEstoque)))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/PaginaAdministracaoProdutos">Administrar Produtos</a>
+                            </li>
+                        }
                         @if (User.IsInRole("Cliente"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Carrinho">Meu Carrinho</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/PaginaClienteCarrinho">Meu Carrinho</a>
                             </li>
                         }
-                        @if (!User.Identity.IsAuthenticated)
+                        @if (!User.Identity?.IsAuthenticated ?? false)
                         {
                             <div class="last-item" style="display: flex;">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/PaginaIniciarSessao">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Register">Register</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/PaginaRegistrarUsuario">Register</a>
                                 </li>
                             </div>
                         }
                         else
                         {   
-                            <form method="post" asp-page="/Logout" class="last-item">
+                            <form method="post" asp-page="/PaginaSairDeSessao" class="last-item">
                                 <button type="submit">Sair da sessão</button>
                             </form>
                         }

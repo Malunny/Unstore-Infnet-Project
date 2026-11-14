@@ -50,8 +50,10 @@ public class PaginaDetalhadaProduto : PageModel
             return Page();
         
         cliente.Carrinho.Produtos.Add(Produto);
-        
         await appDbContext.SaveChangesAsync();
-        return Redirect("/");
+
+        TempData["StatusCarrinho"] = "Adicionado ao carrinho!";
+        
+        return Page();
     }
 }

@@ -1,5 +1,5 @@
-@page
-@model CarrinhoPage
+@page "/cliente/carrinho"
+@model PaginaClienteCarrinho
 
 @{
     ViewData["Title"] = "Unstore - Carrinho";
@@ -11,11 +11,11 @@
         <h1>Seu Carrinho</h1>
         <div class="product-displayer">
             <div class="product-displayer-content">
-                @foreach (var produto in Model.Carrinho.Produtos)
+                @foreach (var produto in Model?.Carrinho?.Produtos ?? [])
                 {
                     <div class="product-display">
                         <h5 class="product-title">
-                            <a asp-area="" asp-page="/Produto" asp-route-id="@produto.Id">
+                            <a asp-area="" asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@produto.Id">
                                 @produto.Nome
                             </a>
                         </h5>
