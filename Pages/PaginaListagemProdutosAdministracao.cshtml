@@ -6,6 +6,12 @@
 }
 
 <div class="display-flex-columns paper-1">
+    <ul class="nav justify-content-end">
+        <li>
+            <a class="btn btn-primary" role="button"
+                asp-area="" asp-page="/PaginaAdministracaoProdutos" asp-route-produtoId="0">Criar Produto</a>
+        </li>
+    </ul>
     <div>
         <div class="product-displayer">
             <div class="product-displayer-content">
@@ -24,7 +30,7 @@
             </div>
         </div>
     </div>
-    
+
     <footer class="flex-row" style="display: flex; margin-left: auto;">
         <p style="vertical-align: center;">
             Página: @Model.NumeroPagina
