@@ -8,7 +8,7 @@ using UnstoreProjectADS.Models;
 namespace UnstoreProjectADS.Pages;
 
 [Authorize(Roles = $"Vendas, AdministradorEstoque, AdministradorSistema, Financeiro")]
-public class ProductManagerPage : PageModel
+public class PaginaAdministracaoProdutos : PageModel
 {
     [BindProperty(SupportsGet = true)] public bool Creating { get; set; } = false;
 

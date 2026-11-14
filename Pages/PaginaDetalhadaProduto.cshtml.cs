@@ -7,7 +7,7 @@ using UnstoreProjectADS.Services;
 
 namespace UnstoreProjectADS.Pages;
 
-public class ProdutoPage : PageModel
+public class PaginaDetalhadaProduto : PageModel
 {
     public Produto? Produto { get; set; }
     public async Task OnGetAsync([FromRoute] int produtoId, [FromServices] ServicoProduto servicoProduto)

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace UnstoreProjectADS.Pages;
 
-public class LogoutPage : PageModel
+public class PaginaSairDeSessao : PageModel
 {
     public void OnGet()
     {
