@@ -38,9 +38,15 @@ public class ServicoProduto
     public async Task<bool> SalvarProduto(Produto produto)
     {
         if (produto.Id < 1)
-            return false;
+        {
+            _contexto.Produtos.Add(produto);
         
-        _contexto.Produtos.Entry(produto);
+            await _contexto.SaveChangesAsync();
+
+            return true;
+        }
+        
+        _contexto.Attach(produto).State = EntityState.Modified;
         
         await _contexto.SaveChangesAsync();
 

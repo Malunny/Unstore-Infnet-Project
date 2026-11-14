@@ -39,6 +39,9 @@ public class PaginaAdministracaoProdutos : PageModel
 
     public async Task<IActionResult> OnPostAsync([FromServices] ServicoProduto servicoProduto)
     {
+        if (Produto.Id == 0)
+            Produto.Id = ProdutoId;
+        
         var produtoFoiSalvo = await servicoProduto.SalvarProduto(Produto);
 
         if (!produtoFoiSalvo)
