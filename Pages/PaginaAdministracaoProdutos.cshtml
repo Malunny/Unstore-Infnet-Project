@@ -2,6 +2,10 @@
 @model PaginaAdministracaoProdutos
 @{
     ViewData["Title"] = "Unstore - Editando produto";
+    var cargoAdministradorEstoque = Cargos.AdministradorEstoque.PegarNome();
+    var cargoAdministradorSistema = Cargos.AdministradorSistema.PegarNome();
+    var cargoFinanceiro = Cargos.Financeiro.PegarNome();
+    var cargoVendas = Cargos.Vendas.PegarNome();
 }
 
 <div class="display-flex-columns paper-1">
@@ -12,14 +16,28 @@
     }
     <form method="post" class="display-flex-columns paper-2">
         <label for="Nome">Nome</label>
-        <input type="text" id="Nome" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("AdministradorSistema"))" asp-for="Produto.Nome"/>
+        <input type="text" id="Nome" readonly="@(!Model.User.IsInRole(cargoVendas) 
+                                               && !Model.User.IsInRole(cargoAdministradorSistema))" 
+                                               asp-for="Produto.Nome"/>
         <label for="Descricao">Descrição</label>
-        <input type="text" id="Descricao" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("AdministradorSistema"))" asp-for="Produto.Descricao"/>
+        <input type="text" id="Descricao" readonly="@(!Model.User.IsInRole(cargoVendas) 
+                                                    && !Model.User.IsInRole(cargoAdministradorSistema))"
+                                                    asp-for="Produto.Descricao"/>
+        
         <label for="Valor">Valor</label>
-        <input type="number" readonly="@(!Model.User.IsInRole("Vendas") && !Model.User.IsInRole("Financeiro") && !Model.User.IsInRole("AdministradorSistema"))" id="Valor" asp-for="Produto.Valor"/>
+        <input type="number" readonly="@(!Model.User.IsInRole(cargoVendas) 
+                                       && !Model.User.IsInRole(cargoFinanceiro)
+                                       && !Model.User.IsInRole(cargoAdministradorSistema))"
+                                       id="Valor" asp-for="Produto.Valor"/>
+        
         <label for="QuantidadeEstoque">QuantidadeEstoque</label>
-        <input type="number" readonly="@(!Model.User.IsInRole("AdministradorEstoque") && !Model.User.IsInRole("AdministradorSistema"))" id="QuantidadeEstoque" asp-for="Produto.QuantidadeEstoque"/>
+        <input type="number" readonly="@(!Model.User.IsInRole(cargoAdministradorEstoque) 
+                                       && !Model.User.IsInRole(cargoAdministradorSistema))" id="QuantidadeEstoque" asp-for="Produto.QuantidadeEstoque"/>
+                                       
         <button type="submit">Salvar</button>
     </form>
+    <span class="alert-info">
+        @TempData["StatusProduto"]
+    </span>
 </div>
 

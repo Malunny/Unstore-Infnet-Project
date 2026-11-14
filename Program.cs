@@ -20,8 +20,8 @@ var secretKey = Encoding.ASCII.GetBytes(builder.Configuration["JwtToken"] ?? thr
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.LoginPath = "/iniciarSessao";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
         options.SlidingExpiration = true;
     });
 builder.Services.AddAuthorization();

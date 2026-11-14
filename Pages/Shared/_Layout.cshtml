@@ -26,12 +26,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutos">Products</a>
                         </li>
-                        @if (User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.Vendas)) || 
-                             User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.AdministradorSistema)) ||
-                             User.IsInRole(CargosNomeCriador.PegarNomeCargo(CargosNome.AdministradorEstoque)))
+                        @if (User.IsInRole(CargosNomeCriador.PegarNome(Cargos.Vendas)) || 
+                             User.IsInRole(CargosNomeCriador.PegarNome(Cargos.AdministradorSistema)) ||
+                             User.IsInRole(CargosNomeCriador.PegarNome(Cargos.AdministradorEstoque))) 
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/PaginaAdministracaoProdutos">Administrar Produtos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutosAdministracao" asp-route-pagina="1">
+                                    Administrar Produtos
+                                </a>
                             </li>
                         }
                         @if (User.IsInRole("Cliente"))

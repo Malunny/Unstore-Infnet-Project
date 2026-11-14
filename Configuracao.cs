@@ -19,6 +19,25 @@ public static class Configuracao
         VariaveisAmbiente.Administrador.Email = construtor.Configuration["Admin:Email"] ??  throw new ArgumentNullException("Admin:Email");
     }
 
+    public static void AdicionarPoliticasAutorizacao(this WebApplicationBuilder construtor)
+    {
+        construtor.Services.AddAuthorization(opcoes =>
+        {
+            opcoes.AddPolicy("Cliente", politica => politica
+                .RequireRole(Cargos.AdministradorSistema.PegarNome(),
+                    Cargos.Cliente.PegarNome()));
+            
+            opcoes.AddPolicy("AdministradoresProduto", politica => politica.
+                RequireRole(Cargos.AdministradorSistema.PegarNome(),
+                    Cargos.Financeiro.PegarNome(),
+                    Cargos.Vendas.PegarNome(),
+                    Cargos.AdministradorEstoque.PegarNome()));
+
+            opcoes.AddPolicy("AdministradorTotal", politica => politica.
+                RequireRole(Cargos.AdministradorSistema.PegarNome()));
+        });
+    }
+
     public static void AdicionarBancoDeDados(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<AppDbContext>(opcoes =>
@@ -36,13 +55,13 @@ public static class Configuracao
                 {
                     var cargos = new List<Cargo>
                     {
-                        new Cargo { Nome = CargosNome.AdministradorEstoque.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.Repositor.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.Financeiro.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.Logistica.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.Vendas.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.SAC.PegarNomeCargo() },
-                        new Cargo { Nome = CargosNome.AdministradorSistema.PegarNomeCargo() }
+                        new Cargo { Nome = Cargos.AdministradorEstoque.PegarNome() },
+                        new Cargo { Nome = Cargos.Repositor.PegarNome() },
+                        new Cargo { Nome = Cargos.Financeiro.PegarNome() },
+                        new Cargo { Nome = Cargos.Logistica.PegarNome() },
+                        new Cargo { Nome = Cargos.Vendas.PegarNome() },
+                        new Cargo { Nome = Cargos.SAC.PegarNome() },
+                        new Cargo { Nome = Cargos.AdministradorSistema.PegarNome() }
                     };
                     db.Set<Cargo>().AddRange(cargos);
                     db.SaveChanges();
@@ -54,7 +73,7 @@ public static class Configuracao
                     administradorSistema.Senha = VariaveisAmbiente.Administrador.Senha;
 
                     administradorSistema.Cargo =
-                        cargos.First(cargo => cargo.Nome == CargosNome.AdministradorSistema.PegarNomeCargo());
+                        cargos.First(cargo => cargo.Nome == Cargos.AdministradorSistema.PegarNome());
 
                     db.Set<Funcionario>().Add(administradorSistema);
                     db.SaveChanges();

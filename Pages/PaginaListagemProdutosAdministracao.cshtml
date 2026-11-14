@@ -1,0 +1,67 @@
+@page "/administracao/produtos"
+@model PaginaListagemProdutoAdministracao
+
+@{
+    ViewData["Title"] = "[ADM] Unstore - Produtos";
+}
+
+<div class="display-flex-columns paper-1">
+    <div>
+        <div class="product-displayer">
+            <div class="product-displayer-content">
+                @foreach (var produto in Model.Produtos)
+                {
+                    <div class="product-display">
+                        <h5 class="product-title">
+                            <a asp-area="" asp-page="/PaginaAdministracaoProdutos" asp-route-produtoId="@produto.Id">
+                                @produto.Nome
+                            </a>
+                        </h5>
+                        <p>R$ @produto.Valor.ToString("F2")</p>
+                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <footer class="flex-row" style="display: flex; margin-left: auto;">
+        <p style="vertical-align: center;">
+            Página: @Model.NumeroPagina
+        </p>
+        <div style="display: flex; align-items: center; margin-left: 1em;">
+            @if (Model.PossuiPaginaAnterior)
+            {
+                <a asp-route-pagina="@(Model.NumeroPagina - 1)" class="button">
+                    <b>
+                        -
+                    </b>
+                </a>
+            }
+            else
+            {
+                <span class="button disabled">
+                    <b>
+                        -
+                    </b>
+                </span>
+            }
+            @if (Model.PossuiProximaPagina)
+            {
+                <a asp-route-pagina="@(Model.NumeroPagina + 1)" class="button">
+                    <b>
+                        +
+                    </b>
+                </a>
+            }
+            else
+            {
+                <span class="button disabled">
+                    <b>
+                        +
+                    </b>
+                </span>
+            }
+        </div>
+    </footer>
+</div>

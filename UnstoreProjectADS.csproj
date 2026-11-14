@@ -20,4 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\PaginaListagemProdutoAdministracao.cshtml.cs">
+      <DependentUpon>PaginaListagemProdutosAdministracao.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

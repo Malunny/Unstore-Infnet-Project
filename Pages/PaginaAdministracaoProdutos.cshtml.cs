@@ -4,27 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using UnstoreProjectADS.Models;
+using UnstoreProjectADS.Services;
 
 namespace UnstoreProjectADS.Pages;
 
-[Authorize(Roles = $"Vendas, AdministradorEstoque, AdministradorSistema, Financeiro")]
+[Authorize(Policy = "AdministradoresProduto")]
 public class PaginaAdministracaoProdutos : PageModel
 {
     [BindProperty(SupportsGet = true)] public bool Creating { get; set; } = false;
 
+    [BindProperty(SupportsGet = true, Name = "produtoId")]
+    public int ProdutoId { get; set; } = 0;
     [BindProperty] public Produto Produto { get; set; }
-    public int Id { get; set; }
-    public async Task OnGetAsync(int id, [FromServices] AppDbContext appDbContext)
+    public async Task OnGetAsync([FromServices] ServicoProduto servicoProduto)
     {
-        Id = id;
-        if (id == 0) 
+        if (ProdutoId == 0) 
         {
             Creating = true;
             Produto = new Produto();
             return;
         }
-        
-        var produto = await appDbContext.Produtos.FirstOrDefaultAsync(p => p.Id == id);
+
+        var produto = await servicoProduto.ObterPorId(ProdutoId);
 
         if (produto == null)
         {
@@ -36,16 +37,13 @@ public class PaginaAdministracaoProdutos : PageModel
         Produto = produto;
     }
 
-    public async Task<IActionResult> OnPostAsync([FromServices] AppDbContext appDbContext)
+    public async Task<IActionResult> OnPostAsync([FromServices] ServicoProduto servicoProduto)
     {
-        if (Produto.Id == 0)
-        {
-            await appDbContext.Produtos.AddAsync(Produto);
-            ;
-        }
+        var produtoFoiSalvo = await servicoProduto.SalvarProduto(Produto);
 
-        await appDbContext.SaveChangesAsync();
+        if (!produtoFoiSalvo)
+            TempData["StatusProduto"] = "O produto não conseguiu ser salvo.";
         
-        return RedirectToPage("/Products");
+        return Page();
     }
 }

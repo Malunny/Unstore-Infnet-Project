@@ -35,6 +35,18 @@ public class ServicoProduto
         return possuiRegistros;
     }
 
+    public async Task<bool> SalvarProduto(Produto produto)
+    {
+        if (produto.Id < 1)
+            return false;
+        
+        _contexto.Produtos.Entry(produto);
+        
+        await _contexto.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task<Produto?> ObterPorId(int id)
     {
         if (id <= 0)
@@ -42,7 +54,8 @@ public class ServicoProduto
         
         return await _contexto.Produtos.FirstOrDefaultAsync(p => p.Id == id);
     }
-
+    
+    #region Métodos Auxiliares
     private bool ValidarParametrosPagina(int tamanhoPagina, int numeroPagina)
     {
         if (tamanhoPagina < _tamanhoMinimoPagina)
@@ -56,4 +69,5 @@ public class ServicoProduto
         
         return true;
     }
+    #endregion
 }

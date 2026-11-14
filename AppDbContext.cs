@@ -102,7 +102,7 @@ public class AppDbContext : DbContext
     }
 }
 
-public enum CargosNome
+public enum Cargos
 {
     AdministradorSistema,
     AdministradorEstoque,
@@ -110,34 +110,38 @@ public enum CargosNome
     Financeiro,
     Vendas,
     SAC,
-    Logistica
+    Logistica,
+    Cliente
 }
 
 public static class CargosNomeCriador
 {
-    public static string PegarNomeCargo(this CargosNome cargo)
+    public static string PegarNome(this Cargos cargo)
     {
         switch (cargo)
         {
-            case CargosNome.AdministradorSistema:
+            case Cargos.AdministradorSistema:
                 return "AdministradorSistema";
                 break;
-            case CargosNome.AdministradorEstoque:
+            case Cargos.AdministradorEstoque:
                 return "AdministradorEstoque";
                 break;
-            case CargosNome.Repositor:
+            case Cargos.Repositor:
                 return "Repositor";
                 break;
-            case CargosNome.Financeiro:
+            case Cargos.Financeiro:
                 return "Financeiro";
                 break;
-            case CargosNome.SAC:
+            case Cargos.SAC:
                 return "SAC";
-            case CargosNome.Vendas:
+            case Cargos.Vendas:
                 return "Vendas";
                 break;
-            case CargosNome.Logistica:
+            case Cargos.Logistica:
                 return "Logistica";
+                break;
+            case Cargos.Cliente:
+                return "Cliente";
                 break;
             default:
                 return "";
