@@ -26,9 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutos">Products</a>
                         </li>
-                        @if (User.IsInRole(CargosNomeCriador.PegarNome(Cargos.Vendas)) || 
-                             User.IsInRole(CargosNomeCriador.PegarNome(Cargos.AdministradorSistema)) ||
-                             User.IsInRole(CargosNomeCriador.PegarNome(Cargos.AdministradorEstoque))) 
+                        @if (User.IsInRole(Cargos.Vendas.PegarNome()) || 
+                             User.IsInRole(Cargos.AdministradorSistema.PegarNome()) ||
+                             User.IsInRole(Cargos.AdministradorEstoque.PegarNome())) 
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutosAdministracao" asp-route-pagina="1">
@@ -36,7 +36,7 @@
                                 </a>
                             </li>
                         }
-                        @if (User.IsInRole("Cliente"))
+                        @if (User.IsInRole(Cargos.Cliente.PegarNome()))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/PaginaClienteCarrinho">Meu Carrinho</a>
@@ -59,6 +59,7 @@
                                 <button type="submit">Sair da sessão</button>
                             </form>
                         }
+                        
                     </ul>
                 </div>
             </div>
