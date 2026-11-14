@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
         options.SlidingExpiration = true;
     });
-builder.Services.AddAuthorization();
+builder.AdicionarPoliticasAutorizacao();
 
 var app = builder.Build();
 
