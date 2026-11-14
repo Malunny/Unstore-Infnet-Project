@@ -29,20 +29,38 @@
             Página: @Model.NumeroPagina
         </p>
         <div style="display: flex; align-items: center; margin-left: 1em;">
-            <form method="post" asp-page-handler="ReturnPage">
-                <button type="submit" class="button">
+            @if (Model.PossuiPaginaAnterior)
+            {
+                <a asp-route-pagina="@(Model.NumeroPagina - 1)" class="button">
                     <b>
                         -
                     </b>
-                </button>
-            </form>
-            <form method="post" asp-page-handler="AddPage">
-                <button type="submit" class="button">
+                </a>
+            }
+            else
+            {
+                <span class="button disabled">
+                    <b>
+                        -
+                    </b>
+                </span>
+            }
+            @if (Model.PossuiProximaPagina)
+            {
+                <a asp-route-pagina="@(Model.NumeroPagina + 1)" class="button">
                     <b>
                         +
                     </b>
-                </button>
-            </form>
+                </a>
+            }
+            else
+            {
+                <span class="button disabled">
+                    <b>
+                        +
+                    </b>
+                </span>
+            }
         </div>
     </footer>
 </div>
