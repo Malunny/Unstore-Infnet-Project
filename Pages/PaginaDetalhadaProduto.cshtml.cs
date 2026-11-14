@@ -26,7 +26,7 @@ public class PaginaDetalhadaProduto : PageModel
     {
         var usuarioEmail = User.FindFirstValue(ClaimTypes.Email);
         if (usuarioEmail == null)
-            return Redirect("/Login");
+            return Redirect("/iniciarSessao");
 
         Console.WriteLine(produtoId);
         var produto = await servicoProduto.ObterPorId(produtoId);
