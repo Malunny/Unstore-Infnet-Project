@@ -13,7 +13,11 @@
 
 <div class="card product-display">
     <div class="card-body">
-        <h5 class="card-title text-truncate">@Model.Nome</h5>
+        <h5 class="card-title text-truncate">
+            <a asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@Model.Id">
+                @Model.Nome
+            </a>
+        </h5>
         <b>Descrição</b>
         <p class="card-text text-muted small">@descricao</p>
     </div>
