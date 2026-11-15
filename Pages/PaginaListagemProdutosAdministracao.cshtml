@@ -11,6 +11,8 @@
         <h3>
             Administração de Produtos
         </h3>
+        <a class="btn btn-primary " role="button"
+           asp-area="" asp-page="/PaginaAdministracaoProdutos" asp-route-produtoId="0">Criar Produto</a>
     </header>
     <div class="container" style="height: 68vh; overflow-y: scroll">
         <table class="table table-hover">
@@ -76,7 +78,9 @@
                 <ul class="pagination">
                     <li class="page-item">
                         @if (Model.PossuiPaginaAnterior)
-                        { <a class="page-link" asp-route-pesquisa="@Model.TextoPequisa" asp-route-pagina="@(Model.NumeroPagina - 1)">Anterior</a> }
+                        { <a class="page-link" 
+                             asp-route-tamanhoPagina="@Model.TamanhoPagina"
+                             asp-route-pesquisa="@Model.TextoPequisa" asp-route-pagina="@(Model.NumeroPagina - 1)">Anterior</a> }
                         else
                         { <a class="page-link disabled" aria-disabled="True">Anterior</a> }
                     </li>
@@ -84,12 +88,16 @@
                     {
                         var numeroPagina = i + 1;
                         <li class="page-item">
-                            <a class="page-link" asp-route-pagina="@numeroPagina" asp-route-pesquisa="@Model.TextoPequisa">@numeroPagina</a>
+                            <a class="page-link" asp-route-pagina="@numeroPagina" 
+                               asp-route-tamanhoPagina="@Model.TamanhoPagina"
+                               asp-route-pesquisa="@Model.TextoPequisa">@numeroPagina</a>
                         </li>
                     }
                     <li class="page-item">
                         @if (Model.PossuiProximaPagina)
-                        { <a class="page-link" asp-route-pagina="@(Model.NumeroPagina + 1)" asp-route-pesquisa="@Model.TextoPequisa">Próximo</a> }
+                        { <a class="page-link" asp-route-pagina="@(Model.NumeroPagina + 1)"
+                             asp-route-tamanhoPagina="@Model.TamanhoPagina"
+                             asp-route-pesquisa="@Model.TextoPequisa">Próximo</a> }
                         else
                         { <a class="page-link disabled" aria-disabled="True">Próximo</a> }
                     </li>
