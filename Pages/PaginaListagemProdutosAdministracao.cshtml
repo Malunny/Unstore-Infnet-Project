@@ -51,11 +51,12 @@
                     <td>
                         @produto.QuantidadeEstoque
                     </td>
-                    <td class="d-flex gap-1">
+                    <td class="d-flex gap-1 align-items-center">
                         <form>
-                            <button type="submit" class="btn btn-outline-dark" asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@produto.Id">
+                            <a type="submit" class="btn btn-outline-dark" asp-page="/PaginaAdministracaoProdutos" 
+                                    asp-route-produtoId="@produto.Id">
                                 <i class="bi bi-pencil-fill"></i>
-                            </button>
+                            </a>
                         </form>
                         <form method="post">
                             <button class="btn btn-primary"

@@ -13,8 +13,7 @@ public class PaginaAdministracaoProdutos : PageModel
 {
     [BindProperty(SupportsGet = true)] public bool Creating { get; set; } = false;
 
-    [BindProperty(SupportsGet = true, Name = "produtoId")]
-    public int ProdutoId { get; set; } = 0;
+    [BindProperty(SupportsGet = true, Name = "produtoId")] public int ProdutoId { get; set; } = 0;
     [BindProperty] public Produto Produto { get; set; }
     public async Task OnGetAsync([FromServices] ServicoProduto servicoProduto)
     {
