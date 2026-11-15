@@ -7,9 +7,11 @@
 
 @if (Model?.Produto != null)
 {
-    <div class="paper-1">
-        <h1>@Model.Produto.Nome</h1>
-        <div style="display: flex;">
+    <div class="card shadow-sm">
+        <header class="card-header">
+            <h1>@Model.Produto.Nome</h1>
+        </header>
+        <div class="card-body">
             <div style="width: 50%;">
                 <h3>Descrição</h3>
                 <p>
@@ -22,26 +24,38 @@
                     R$ @Model.Produto.Valor.ToString("F2");
                 </p>
             </div>
+            <div>
+                <span class="alert-success">
+                    @TempData["StatusCarrinho"]
+                </span>
+            </div>
         </div>
-        <div class="flex-row">
+            
+        <div class="card-footer d-flex flex-row">
             <form method="post" asp-page-handler="AdicionarCarrinho">
                 <button type="submit">
                     Adicionar no carrinho
                 </button>
             </form>
-            <span class="alert-danger">
-                @TempData["ProblemaAdicionarCarrinho"]
-            </span>
-            <span class="alert-success">
-                @TempData["StatusCarrinho"]
-            </span>
             <form method="post" asp-page-handler="Comprar">
                 <button type="submit">
                     Comprar
                 </button>
             </form>
         </div>
-    </div>   
+    </div>
+    @if (TempData["ProblemaAdicionarCarrinho"] != null)
+    {
+        <div class="toast show p-1 position-fixed" style="bottom: 10%;" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <span class="text-info flex-grow-1">
+                    Alerta!
+                </span>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">@TempData["ProblemaAdicionarCarrinho"]</div>
+        </div>
+    }
 }
 else
 {
