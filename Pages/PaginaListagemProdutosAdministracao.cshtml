@@ -1,73 +1,65 @@
 @page "/administracao/produtos"
+@using UnstoreProjectADS.Extensoes.Monetario
 @model PaginaListagemProdutoAdministracao
 
 @{
     ViewData["Title"] = "[ADM] Unstore - Produtos";
 }
 
-<div class="display-flex-columns paper-1">
-    <ul class="nav justify-content-end">
-        <li>
-            <a class="btn btn-primary" role="button"
-                asp-area="" asp-page="/PaginaAdministracaoProdutos" asp-route-produtoId="0">Criar Produto</a>
-        </li>
-    </ul>
-    <div>
-        <div class="product-displayer">
-            <div class="product-displayer-content">
-                @foreach (var produto in Model.Produtos)
-                {
-                    <div class="product-display">
-                        <h5 class="product-title">
-                            <a asp-area="" asp-page="/PaginaAdministracaoProdutos" asp-route-produtoId="@produto.Id">
-                                @produto.Nome
-                            </a>
-                        </h5>
-                        <p>R$ @produto.Valor.ToString("F2")</p>
-                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-    <footer class="flex-row" style="display: flex; margin-left: auto;">
-        <p style="vertical-align: center;">
-            Página: @Model.NumeroPagina
-        </p>
-        <div style="display: flex; align-items: center; margin-left: 1em;">
-            @if (Model.PossuiPaginaAnterior)
-            {
-                <a asp-route-pagina="@(Model.NumeroPagina - 1)" class="button">
-                    <b>
-                        -
-                    </b>
-                </a>
-            }
-            else
-            {
-                <span class="button disabled">
-                    <b>
-                        -
-                    </b>
-                </span>
-            }
-            @if (Model.PossuiProximaPagina)
-            {
-                <a asp-route-pagina="@(Model.NumeroPagina + 1)" class="button">
-                    <b>
-                        +
-                    </b>
-                </a>
-            }
-            else
-            {
-                <span class="button disabled">
-                    <b>
-                        +
-                    </b>
-                </span>
-            }
-        </div>
-    </footer>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>   
+                Número
+            </th>
+            <th>
+                Nome
+            </th>
+            <th>
+                Preço
+            </th>
+            <th>
+                Estoque
+            </th>
+            <th>
+                Opções
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var produto in Model.Produtos)
+        {
+            <tr>
+                <td>
+                    @produto.Id
+                </td>
+                <td>
+                    @produto.Nome
+                </td>
+                <td>
+                    @produto.Valor.TransformarEmMonetario()
+                </td>
+                <td>
+                    @produto.QuantidadeEstoque
+                </td>
+                <td class="d-flex gap-1">
+                    <form>
+                        <button type="submit" class="btn btn-outline-dark" asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@produto.Id">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                    </form>
+                    <form method="post">
+                        <button class="btn btn-primary"
+                                asp-page="/DeletarProduto"
+                                asp-route-produtoId="@produto.Id"
+                                type="submit">
+                            <i class="bi bi-trash" aria-label="Deletar"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 </div>

@@ -1,3 +1,4 @@
+@using UnstoreProjectADS.Extensoes.Monetario
 @model UnstoreProjectADS.ViewModels.ViewModelProduto
 
 @{
@@ -22,7 +23,7 @@
         <p class="card-text text-muted small">@descricao</p>
     </div>
     <div class="card-footer">
-        <b>R$ @Model.Valor.ToString("F2")</b>
+        <b>R$ @Model.Valor.TransformarEmMonetario()</b>
         <p class="text-muted">Estoque: @Model.QuantidadeEmEstoque</p>
     </div>
 </div>

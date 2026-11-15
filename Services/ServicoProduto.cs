@@ -38,6 +38,19 @@ public class ServicoProduto
         return paginaProdutos;
     }
 
+    public async Task<bool> DeletarProduto(int produtoId)
+    {
+        var produto = await ObterPorId(produtoId);
+
+        if (produto == null)
+            return false;
+        
+        _contexto.Produtos.Remove(produto);
+        await _contexto.SaveChangesAsync();
+        
+        return true;
+    }
+    
     public async Task<bool> PaginaPossuiRegistros(int numeroPagina, int tamanhoPagina)
     {
         ValidarParametrosPagina(tamanhoPagina, numeroPagina);
