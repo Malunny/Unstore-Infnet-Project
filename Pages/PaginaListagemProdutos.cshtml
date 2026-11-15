@@ -1,66 +1,47 @@
 @page "/produtos/listagem"
+@using UnstoreProjectADS.ViewComponents
 @model PaginaListagemProdutos
 @{
     ViewData["Title"] = "Unstore - Produtos";
 }
 
-<div class="display-flex-columns paper-1">
-    <div>
-        <div class="product-displayer">
-            <div class="product-displayer-content">
-                @foreach (var produto in Model.Produtos)
-                {
-                    <div class="product-display">
-                        <h5 class="product-title">
-                            <a asp-area="" asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@produto.Id">
-                                @produto.Nome
-                            </a>
-                        </h5>
-                        <p>R$ @produto.Valor.ToString("F2")</p>
-                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
-                    </div>
-                }
-            </div>
-        </div>
+<div class="card d-flex flex-column" style="height: 82vh;">
+    <div class="card-header">
+        <h3>Produtos</h3>
+        <form>
+            <input type="text" class="form-control" placeholder="Pesquise aqui"/>
+        </form>
     </div>
-    
-    <footer class="flex-row" style="display: flex; margin-left: auto;">
-        <p style="vertical-align: center;">
-            Página: @Model.NumeroPagina
-        </p>
-        <div style="display: flex; align-items: center; margin-left: 1em;">
-            @if (Model.PossuiPaginaAnterior)
-            {
-                <a asp-route-pagina="@(Model.NumeroPagina - 1)" class="button">
-                    <b>
-                        -
-                    </b>
-                </a>
-            }
-            else
-            {
-                <span class="button disabled">
-                    <b>
-                        -
-                    </b>
-                </span>
-            }
-            @if (Model.PossuiProximaPagina)
-            {
-                <a asp-route-pagina="@(Model.NumeroPagina + 1)" class="button">
-                    <b>
-                        +
-                    </b>
-                </a>
-            }
-            else
-            {
-                <span class="button disabled">
-                    <b>
-                        +
-                    </b>
-                </span>
-            }
-        </div>
-    </footer>
+    <div class="product-displayer gap-2 flex-grow-1 overflow-auto p-3">
+        @foreach (var produto in Model.Produtos)
+        {
+            @await Component.InvokeAsync(typeof(CardProdutoViewComponent), produto);
+        }
+    </div>
+    <div class="card-footer d-flex gap-2" style="position: relative; bottom: 0;">
+        <p> Página: @Model.NumeroPagina </p>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    @if (Model.PossuiPaginaAnterior)
+                    { <a class="page-link" asp-route-pagina="@(Model.NumeroPagina - 1)">Anterior</a> }
+                    else
+                    { <a class="page-link disabled" aria-disabled="True">Anterior</a> }
+                </li>
+                @for (int i = 0; i < Model.QuantidadePaginas; i++)
+                {
+                    var numeroPagina = i + 1;
+                    <li class="page-item">
+                        <a class="page-link" asp-route-pagina="@numeroPagina">@numeroPagina</a>
+                    </li>
+                }
+                <li class="page-item">
+                    @if (Model.PossuiProximaPagina)
+                    { <a class="page-link" asp-route-pagina="@(Model.NumeroPagina + 1)">Próximo</a> }
+                    else
+                    { <a class="page-link disabled" aria-disabled="True">Próximo</a> }
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>

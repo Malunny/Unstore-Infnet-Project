@@ -53,6 +53,15 @@ public class ServicoProduto
         return true;
     }
 
+    public async Task<int> ObterQuantidadePaginas(int tamanhoPagina)
+    {
+        var quantidadeRegistros = await _contexto.Produtos.CountAsync();
+
+        var quantidadePaginas = (double)quantidadeRegistros / tamanhoPagina; 
+        
+        return (int)double.Ceiling(quantidadePaginas);
+    }
+
     public async Task<Produto?> ObterPorId(int id)
     {
         if (id <= 0)
