@@ -23,6 +23,20 @@ public class ServicoProduto
         
         return paginaProdutos;
     }
+    
+    public async Task<ICollection<Produto>?> ObterPagina(int numeroPagina, int tamanhoPagina, string textoPesquisa)
+    {
+        ValidarParametrosPagina(tamanhoPagina, numeroPagina);
+
+        var registrosPulados = (numeroPagina - 1) * tamanhoPagina;
+
+        var paginaProdutos = await _contexto.Produtos
+            .Skip(registrosPulados).Take(tamanhoPagina)
+                .Where(produto => EF.Functions.Like(produto.Nome, $"%{textoPesquisa}%"))
+                    .ToListAsync();
+        
+        return paginaProdutos;
+    }
 
     public async Task<bool> PaginaPossuiRegistros(int numeroPagina, int tamanhoPagina)
     {
@@ -56,6 +70,17 @@ public class ServicoProduto
     public async Task<int> ObterQuantidadePaginas(int tamanhoPagina)
     {
         var quantidadeRegistros = await _contexto.Produtos.CountAsync();
+
+        var quantidadePaginas = (double)quantidadeRegistros / tamanhoPagina; 
+        
+        return (int)double.Ceiling(quantidadePaginas);
+    }
+    
+    public async Task<int> ObterQuantidadePaginas(int tamanhoPagina, string textoPesquisa)
+    {
+        var quantidadeRegistros = await _contexto.Produtos
+            .Where(produto => EF.Functions.Like(produto.Nome, $"%{textoPesquisa}%"))
+                .CountAsync();
 
         var quantidadePaginas = (double)quantidadeRegistros / tamanhoPagina; 
         
