@@ -9,7 +9,6 @@ namespace UnstoreProjectADS.Pages;
 public class PaginaListagemProdutos : PageModel
 {
     public ICollection<Produto> Produtos { get; set; }
-
     [BindProperty(SupportsGet = true, Name = "pagina")] public int NumeroPagina { get; set; }
     [BindProperty(SupportsGet = true, Name = "tamanhoPagina")] public int TamanhoPagina { get; set; } = 10;
     [BindProperty(SupportsGet = true, Name = "pesquisa")] public string? TextoPesquisa { get; set; }
@@ -35,6 +34,6 @@ public class PaginaListagemProdutos : PageModel
         }
         
         
-        PossuiProximaPagina = await servicoProduto.PaginaPossuiRegistros(NumeroPagina + 1, TamanhoPagina);
+        PossuiProximaPagina = NumeroPagina < QuantidadePaginas;
     }
 }

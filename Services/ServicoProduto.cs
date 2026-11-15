@@ -31,8 +31,8 @@ public class ServicoProduto
         var registrosPulados = (numeroPagina - 1) * tamanhoPagina;
 
         var paginaProdutos = await _contexto.Produtos
+            .Where(produto => EF.Functions.Like(produto.Nome, $"%{textoPesquisa}%"))
             .Skip(registrosPulados).Take(tamanhoPagina)
-                .Where(produto => EF.Functions.Like(produto.Nome, $"%{textoPesquisa}%"))
                     .ToListAsync();
         
         return paginaProdutos;
