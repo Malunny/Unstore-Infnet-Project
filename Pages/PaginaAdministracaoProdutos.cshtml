@@ -31,7 +31,8 @@
 
             <label for="Valor">Valor</label>
             <input class="form-control"
-                   type="number" readonly="@(!Model.User.PossuiCargoVendas() && !Model.User.PossuiCargoFuncionario() && !Model.User.PossuiCargoAdministradorSistema())"
+                   inputmode="numeric"
+                   type="text" readonly="@(!Model.User.PossuiCargoVendas() && !Model.User.PossuiCargoFuncionario() && !Model.User.PossuiCargoAdministradorSistema())"
                    id="Valor" asp-for="Produto.Valor"/>
 
             <label for="QuantidadeEstoque">QuantidadeEstoque</label>
