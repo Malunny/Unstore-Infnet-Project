@@ -28,8 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Contratos\" />
-    <Folder Include="Dados\Contratos\" />
-    <Folder Include="Dados\Repositorios\" />
     <Folder Include="Views\" />
   </ItemGroup>
 
