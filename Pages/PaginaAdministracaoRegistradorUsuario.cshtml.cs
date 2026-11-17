@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using UnstoreProjectADS.Models;
+using UnstoreProjectADS.Core.Entidades;
 
 namespace UnstoreProjectADS.Pages;
 

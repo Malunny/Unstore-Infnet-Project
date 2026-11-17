@@ -1,7 +1,6 @@
 @page "/produtos/administracao"
 @using UnstoreProjectADS.Core.Enums
 @using UnstoreProjectADS.Core.Extensoes
-@using UnstoreProjectADS.Dados
 @model PaginaAdministracaoProdutos
 @{
     ViewData["Title"] = "Unstore - Editando produto";
@@ -23,11 +22,11 @@
         <form method="post" class="display-flex-columns paper-2">
             <label for="Nome">Nome</label>
             <input class="form-control" type="text" id="Nome" 
-                   readonly="@(!Model.User.VerificarCargoVendas() && Model.User.VerificarCargoAdministrador())"
+                   readonly="@(!Model.User.VerificarCargoVendas() && Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Nome"/>
             <label for="Descricao">Descrição</label>
             <textarea class="form-control"
-                   type="text" id="Descricao" readonly="@(Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministrador())"
+                   type="text" id="Descricao" readonly="@(Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Descricao">
 
             </textarea>
@@ -35,12 +34,12 @@
             <label for="Valor">Valor</label>
             <input class="form-control"
                    inputmode="numeric"
-                   type="text" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoFuncionario() && !Model.User.VerificarCargoAdministrador())"
+                   type="text" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoFuncionario() && !Model.User.VerificarCargoAdministradorSistema())"
                    id="Valor" asp-for="Produto.Valor"/>
 
             <label for="QuantidadeEstoque">QuantidadeEstoque</label>
             <input class="form-control"
-                type="number" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministrador())"
+                type="number" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    id="QuantidadeEstoque" asp-for="Produto.QuantidadeEstoque"/>
 
             <button type="submit">Salvar</button>

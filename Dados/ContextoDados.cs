@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Core.Enums;
 
 namespace UnstoreProjectADS.Dados;
 

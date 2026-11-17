@@ -1,4 +1,4 @@
-namespace UnstoreProjectADS.Models;
+namespace UnstoreProjectADS.Core.Entidades;
 
 public class Imagem
 {

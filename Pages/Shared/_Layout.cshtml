@@ -33,7 +33,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" href="#">Administração</a>
                                 <ul class="dropdown-menu">
-                                    @if (User.VerificarCargoVendas() || User.VerificarCargoAdministrador() || User.VerificarCargoAdministradorEstoque())
+                                    @if (User.VerificarCargoVendas() || User.VerificarCargoAdministradorSistema() || User.VerificarCargoAdministradorEstoque())
                                     {
                                         <li class="dropdown-item">
                                             <a class="nav-link text-dark" asp-area="" asp-page="/PaginaListagemProdutosAdministracao" asp-route-pagina="1">

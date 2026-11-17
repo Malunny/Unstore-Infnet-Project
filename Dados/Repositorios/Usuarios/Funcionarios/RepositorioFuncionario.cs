@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using UnstoreProjectADS.Models;
-using UnstoreProjectADS.Repositorios.Contratos;
+using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Dados.Contratos.Repositorios;
 
-namespace UnstoreProjectADS.Repositorios.Usuarios.Funcionarios;
+namespace UnstoreProjectADS.Dados.Repositorios.Usuarios.Funcionarios;
 
 public class RepositorioFuncionario : IRepositorio<Funcionario>
 {
-    private readonly AppDbContext _contextoBancoDados;
-    public RepositorioFuncionario(AppDbContext contextoBancoDados)
+    private readonly ContextoDados _contextoBancoDados;
+    public RepositorioFuncionario(ContextoDados contextoBancoDados)
     {
         _contextoBancoDados = contextoBancoDados;
     }

@@ -5,7 +5,7 @@ using UnstoreProjectADS.Dados;
 
 namespace UnstoreProjectADS;
 
-public static class ExtensoesUsuario
+public static class UsuarioExtensoes
 {
     public static bool VerificarCargoFuncionario(this ClaimsPrincipal usuario) =>
         usuario.IsInRole(Cargos.Vendas.PegarNome()) ||
@@ -19,7 +19,7 @@ public static class ExtensoesUsuario
     public static bool VerificarCargoVendas(this ClaimsPrincipal usuario) =>
         usuario.IsInRole(Cargos.Vendas.PegarNome());
 
-    public static bool VerificarCargoAdministrador(this ClaimsPrincipal usuario) =>
+    public static bool VerificarCargoAdministradorSistema(this ClaimsPrincipal usuario) =>
         usuario.IsInRole(Cargos.AdministradorSistema.PegarNome());
 
     public static bool VerificarCargoAdministradorEstoque(this ClaimsPrincipal usuario) =>

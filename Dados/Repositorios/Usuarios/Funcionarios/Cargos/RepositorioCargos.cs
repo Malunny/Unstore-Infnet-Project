@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using UnstoreProjectADS.Models;
-using UnstoreProjectADS.Repositorios.Contratos;
+using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Dados.Contratos.Repositorios;
 
-namespace UnstoreProjectADS.Repositorios.Usuario.Cargos;
+namespace UnstoreProjectADS.Dados.Repositorios.Usuarios.Funcionarios.Cargos;
 
 public class RepositorioCargos : IRepositorio<Cargo>
 {
-    private readonly AppDbContext _contextoBancoDados;
-    public RepositorioCargos(AppDbContext contextoBancoDados)
+    private readonly ContextoDados _contextoBancoDados;
+    public RepositorioCargos(ContextoDados contextoBancoDados)
     {
         _contextoBancoDados = contextoBancoDados;
     }
