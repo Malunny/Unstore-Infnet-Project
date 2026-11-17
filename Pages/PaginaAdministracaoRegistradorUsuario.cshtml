@@ -1,0 +1,32 @@
+@page "/administracao/usuarios/registrar"
+@model PaginaAdministracaoRegistradorUsuario
+@{
+    ViewData["Title"] = "[ADM] Unstore - Registrar Usuário";
+}
+
+<div class="card">
+    <header class="card-header">
+        <h3>Registrar novo usuário</h3>
+    </header>
+    
+    <form method="post" style="display: flex; flex-direction: column; text-align: left;">
+        <div class="mb-3 m-3">
+            <label class="form-label" for="Nome">Nome</label>
+            <input class="form-control" type="text" id="Nome" asp-for="Funcionario.Nome"/>
+            <label class="form-label" for="Email">Email</label>
+            <input class="form-control" type="email" id="Email" asp-for="Funcionario.Email"/>
+            <label class="form-label" for="Password">Password</label>
+            <input class="form-control" type="password" id="Password" asp-for="Funcionario.Senha"/>
+            
+            <select class="form-select">
+                <option selected>Escolha o cargo</option>
+                
+            </select>
+        </div>
+        
+        <div class="card-footer d-flex flex-row-reverse">
+            <button class="btn btn-primary" type="submit">Registrar</button>
+        </div>
+    </form>
+</div>
+

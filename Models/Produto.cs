@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace UnstoreProjectADS.Models;
 
 public class Produto
@@ -7,6 +9,8 @@ public class Produto
     public string Descricao { get; set; } = string.Empty;
     public decimal Valor { get; set; }
     public int QuantidadeEstoque { get; set; }
+    public string EstadoEstoque { get; set; }
+    public ICollection<Imagem> Imagens { get; set; }
 
     public int? DescontoProdutoId { get; set; }
     public DescontoProduto? Desconto { get; set; }
