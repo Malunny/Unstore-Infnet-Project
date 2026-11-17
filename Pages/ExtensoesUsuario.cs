@@ -1,0 +1,36 @@
+using System.Security.Claims;
+using UnstoreProjectADS.Core.Enums;
+using UnstoreProjectADS.Core.Extensoes;
+using UnstoreProjectADS.Dados;
+
+namespace UnstoreProjectADS;
+
+public static class ExtensoesUsuario
+{
+    public static bool VerificarCargoFuncionario(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.Vendas.PegarNome()) ||
+        usuario.IsInRole(Cargos.AdministradorSistema.PegarNome()) ||
+        usuario.IsInRole(Cargos.AdministradorEstoque.PegarNome()) ||
+        usuario.IsInRole(Cargos.Repositor.PegarNome()) ||
+        usuario.IsInRole(Cargos.Financeiro.PegarNome()) ||
+        usuario.IsInRole(Cargos.SAC.PegarNome()) ||
+        usuario.IsInRole(Cargos.Repositor.PegarNome());
+
+    public static bool VerificarCargoVendas(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.Vendas.PegarNome());
+
+    public static bool VerificarCargoAdministrador(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.AdministradorSistema.PegarNome());
+
+    public static bool VerificarCargoAdministradorEstoque(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.AdministradorEstoque.PegarNome());
+
+    public static bool VerificarCargoRepositor(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.Repositor.PegarNome());
+
+    public static bool VerificarCargoFinanceiro(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.Financeiro.PegarNome());
+
+    public static bool VerificarCargoSAC(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.SAC.PegarNome());
+}

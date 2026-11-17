@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using UnstoreProjectADS.Services;
+using UnstoreProjectADS.Core.Services;
 
 namespace UnstoreProjectADS.Pages;
 

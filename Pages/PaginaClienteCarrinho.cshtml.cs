@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using UnstoreProjectADS.Models;
+using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Dados;
 
 namespace UnstoreProjectADS.Pages;
 
@@ -12,14 +13,14 @@ public class PaginaClienteCarrinho : PageModel
 {
     public Cliente? Cliente { get; set; }
     public Carrinho? Carrinho { get; set; }
-    public async Task OnGetAsync([FromServices] AppDbContext appDbContext)
+    public async Task OnGetAsync([FromServices] ContextoDados contextoDados)
     {
         var clienteEmail = User.FindFirstValue(ClaimTypes.Email);
 
         if (clienteEmail == null)
             return;
         
-        var cliente = await appDbContext.Clientes
+        var cliente = await contextoDados.Clientes
             .Include(cliente => cliente.Carrinho)
             .ThenInclude(carrinho => carrinho.Produtos)
             .FirstOrDefaultAsync(cliente => cliente.Email == clienteEmail);

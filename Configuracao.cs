@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using UnstoreProjectADS.Models;
-using UnstoreProjectADS.Services;
+using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Core.Enums;
+using UnstoreProjectADS.Core.Extensoes;
+using UnstoreProjectADS.Core.Services;
+using UnstoreProjectADS.Dados;
 
 namespace UnstoreProjectADS;
 
@@ -40,7 +43,7 @@ public static class Configuracao
 
     public static void AdicionarBancoDeDados(this WebApplicationBuilder builder)
     {
-        builder.Services.AddDbContext<AppDbContext>(opcoes =>
+        builder.Services.AddDbContext<ContextoDados>(opcoes =>
         {
             opcoes.UseSqlite("Data Source=app.db"); 
             AlimentarBancoDeDados(opcoes);
