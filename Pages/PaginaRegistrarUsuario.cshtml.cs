@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using UnstoreProjectADS.Models;
+using UnstoreProjectADS.Core.Services;
 using UnstoreProjectADS.Pages.Requests;
-using UnstoreProjectADS.Services;
 
 namespace UnstoreProjectADS.Pages;
 

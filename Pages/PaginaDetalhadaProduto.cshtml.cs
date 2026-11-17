@@ -2,8 +2,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using UnstoreProjectADS.Models;
-using UnstoreProjectADS.Services;
+using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Core.Services;
+using UnstoreProjectADS.Dados;
 
 namespace UnstoreProjectADS.Pages;
 
@@ -21,7 +22,7 @@ public class PaginaDetalhadaProduto : PageModel
     }
     
     public async Task<IActionResult> OnPostAdicionarCarrinhoAsync([FromRoute] int produtoId,
-        [FromServices] AppDbContext appDbContext,
+        [FromServices] ContextoDados contextoDados,
         [FromServices] ServicoProduto servicoProduto)
     {
         var usuarioEmail = User.FindFirstValue(ClaimTypes.Email);
@@ -35,7 +36,7 @@ public class PaginaDetalhadaProduto : PageModel
         
         Produto = produto;
         
-        var cliente = await appDbContext.Clientes
+        var cliente = await contextoDados.Clientes
             .Include(u => u.Carrinho)
             .ThenInclude(c => c.Produtos)
             .FirstOrDefaultAsync(u => u.Email == usuarioEmail);
@@ -50,7 +51,7 @@ public class PaginaDetalhadaProduto : PageModel
             return Page();
         
         cliente.Carrinho.Produtos.Add(Produto);
-        await appDbContext.SaveChangesAsync();
+        await contextoDados.SaveChangesAsync();
 
         TempData["StatusCarrinho"] = "Adicionado ao carrinho!";
         

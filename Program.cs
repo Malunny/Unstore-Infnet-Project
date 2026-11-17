@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using UnstoreProjectADS;
-using UnstoreProjectADS.Models;
-using UnstoreProjectADS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
