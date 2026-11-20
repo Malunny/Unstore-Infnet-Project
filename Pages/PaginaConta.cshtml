@@ -1,0 +1,37 @@
+@page "/conta/"
+@model UnstoreProjectADS.Pages.PaginaConta
+
+@{
+    ViewData["Title"] = "Unstore - Conta";
+}
+
+<div class="card">
+    <header class="card-header">
+        <h3>Conta</h3>
+    </header>
+    <div class="card-body">
+        @if (Model.EstaEmSessao)
+        {
+            <p>
+                <b>
+                    Nome: 
+                </b>
+                @Model.Usuario.Nome
+            </p>
+            <p>
+                <b>
+                    Email: 
+                </b>
+                @Model.Usuario.Email
+            </p>
+        }
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" asp-page="/PaginaSairDeSessao">
+            Sair da sessão
+        </a>
+    </div>
+</div>
+
+
+

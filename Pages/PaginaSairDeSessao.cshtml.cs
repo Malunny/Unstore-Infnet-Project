@@ -8,9 +8,11 @@ namespace UnstoreProjectADS.Pages;
 [Authorize]
 public class PaginaSairDeSessao : PageModel
 {
-    public void OnGet()
+    public IActionResult OnGet()
     {
-        
+        HttpContext.SignOutAsync();
+
+        return RedirectToPage("/Index");
     }
     
     public async Task<IActionResult> OnPostAsync()

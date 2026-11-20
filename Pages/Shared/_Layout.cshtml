@@ -70,18 +70,10 @@
                         else
                         {   
                             <div class="last-item user-account-container">
-                                <ul style="display: flex; flex-direction: row; list-style: none; gap: 0.5em; align-items: center;">
-                                    <li>@(User?.FindFirst(ClaimTypes.Email)?.Value ?? "Sem sessão")</li>
-                                    @foreach (var role in User?.FindAll(ClaimTypes.Role) ?? [])
-                                    {
-                                        <li>| @role.Value</li>
-                                    }
-                                    <li>
-                                        <form method="post" asp-page="/PaginaSairDeSessao">
-                                            <button type="submit" class="btn btn-outline-dark">Sair da sessão</button>
-                                        </form>
-                                    </li>
-                                </ul>
+                                <a asp-page="/PaginaConta" 
+                                   class="btn btn-outline-dark">
+                                    <i class="bi bi-person-fill"> Acessar conta</i>
+                                </a>
                             </div>
                         }
                     </ul>
