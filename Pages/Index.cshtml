@@ -5,22 +5,22 @@
 }
 
 <div class="container-fluid">
-    @if (User.VerificarCargoFuncionario())
-    {
-        <header>
-            <h4 class="text-center">
-                Olá, @(Model.User.ColetarNome() ?? "Usuário!")
+    <header>
+        <h4 class="text-center">
+            Olá, @(Model.User.ColetarNome() ?? "Usuário!")
+        </h4>
+    </header>
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Acesso rápido
             </h4>
-        </header>
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    Acesso rápido
-                </h4>
-            </div>
-            <div class="card-body">
-                <nav class="nav">
-                    <ul class="navbar-nav">
+        </div>
+        <div class="card-body">
+            <nav class="nav">
+                <ul class="navbar-nav">
+                    @if (User.VerificarCargoFuncionario())
+                    {
                         <li class="nav-item">
                             <a class="btn btn-secondary"
                                asp-page="/PaginaListagemProdutosAdministracao">
@@ -41,10 +41,22 @@
                                     </b>
                                 </a>
                             }
+                        </li>   
+                    }
+                    else if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-secondary"
+                               asp-page="/PaginaClienteCarrinho">
+                                <i class="bi bi-cart"></i>
+                                <b>
+                                    Carrinho
+                                </b>
+                            </a>
                         </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>   
-    }
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>   
 </div>
