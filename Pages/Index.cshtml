@@ -18,11 +18,11 @@
         </div>
         <div class="card-body">
             <nav class="nav">
-                <ul class="navbar-nav">
+                <ul class="navbar gap-1 list-unstyled">
                     @if (User.VerificarCargoFuncionario())
                     {
                         <li class="nav-item">
-                            <a class="btn btn-secondary"
+                            <a class="btn btn-outline-primary"
                                asp-page="/PaginaListagemProdutosAdministracao">
                                 <i class="bi bi-bag-fill">
                                 </i>
@@ -32,7 +32,7 @@
                             </a>
                             @if (User.VerificarCargoAdministradorSistema())
                             {
-                                <a class="btn btn-secondary"
+                                <a class="btn btn-outline-primary"
                                    asp-page="/PaginaAdministracaoRegistradorUsuario">
                                     <i class="bi bi-bag-fill">
                                     </i>
@@ -43,10 +43,9 @@
                             }
                         </li>   
                     }
-                    else if (User?.Identity?.IsAuthenticated ?? false)
-                    {
+                    @if (User.VerificarUsuarioCliente()) {
                         <li class="nav-item">
-                            <a class="btn btn-secondary"
+                            <a class="btn btn-outline-primary"
                                asp-page="/PaginaClienteCarrinho">
                                 <i class="bi bi-cart"></i>
                                 <b>
@@ -55,6 +54,15 @@
                             </a>
                         </li>
                     }
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary"
+                           asp-page="/PaginaListagemProdutos">
+                            <i class="bi bi-shop"></i>
+                            <b>
+                                Nossos produtos
+                            </b>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
