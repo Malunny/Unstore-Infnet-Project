@@ -48,7 +48,7 @@ public class ServicoConta
         return new ClaimsPrincipal(identidade);
     }
 
-    public async Task<bool> Registrar(RegisterRequest pedidoRegistro)
+    public async Task<bool> Registrar(PedidoDeRegistro pedidoRegistro)
     {
         Cliente cliente = new();
         
@@ -61,25 +61,29 @@ public class ServicoConta
             return false;
         }
 
-        var endereco = new Endereco();
-
-        endereco.Rua = pedidoRegistro.Rua;
-        endereco.CEP = pedidoRegistro.CEP;
-        endereco.Complemento = pedidoRegistro.Complemento;
-        endereco.Estado = pedidoRegistro.Estado;
-        endereco.Municipio = pedidoRegistro.Municipio;
-        endereco.Numero = pedidoRegistro.Numero;
-        
-        if (endereco.Estado is null || endereco.Municipio is null 
-                                    || endereco.Rua is null ||
-                                    endereco.Complemento is null ||
-                                    endereco.CEP is null ||
-                                    endereco.Numero < 1)
+        foreach (var enderecoFormulario in pedidoRegistro.Enderecos)
         {
-            return false;
+            var endereco = new Endereco();
+
+            endereco.Rua = enderecoFormulario.Rua;
+            endereco.CEP = enderecoFormulario.CEP;
+            endereco.Complemento = enderecoFormulario.Complemento;
+            endereco.Estado = enderecoFormulario.Estado;
+            endereco.Municipio = enderecoFormulario.Municipio;
+            endereco.Numero = enderecoFormulario.Numero;
+        
+            if (endereco.Estado is null || endereco.Municipio is null 
+                                        || endereco.Rua is null ||
+                                        endereco.Complemento is null ||
+                                        endereco.CEP is null ||
+                                        endereco.Numero < 1)
+            {
+                return false;
+            }
+            cliente.Enderecos.Add(endereco);
         }
         
-        cliente.Enderecos.Add(endereco);
+        
         cliente.Carrinho = new Carrinho();
 
         await _contexto.Clientes.AddAsync(cliente);

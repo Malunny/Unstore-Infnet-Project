@@ -11,7 +11,7 @@ namespace UnstoreProjectADS.Pages;
 public class PaginaRegistrarUsuario : PageModel
 {
     [BindProperty] public bool IsInvalid { get; set; } = false;
-    [BindProperty] public RegisterRequest Form { get; set; }
+    [BindProperty] public PedidoDeRegistro Form { get; set; } = new();
     public void OnGet()
     {
         

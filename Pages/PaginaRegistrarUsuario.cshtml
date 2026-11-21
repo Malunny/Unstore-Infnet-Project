@@ -6,31 +6,62 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Registrar</h1>
-    <form method="post" style="display: flex; flex-direction: column; text-align: left;">
-        <div class="paper-1 display-flex-columns">
-            <label for="Email">Email</label>
-            <input type="email" id="Email" asp-for="Form.Email"/>
-            <label for="Password">Password</label>
-            <input type="password" id="Password" asp-for="Form.Senha"/>
-            <label for="Nome">Nome</label>
-            <input type="text" id="Nome" asp-for="Form.Nome"/>
-        
-            <h3>Endereço</h3>
-            <label for="Estado">Estado</label>
-            <input type="text" id="Estado" asp-for="Form.Estado"/>
-            <label for="Municipio">Município</label>
-            <input type="text" id="Municipio" asp-for="Form.Municipio"/>
-            <label for="Rua">Rua</label>
-            <input type="text" id="Rua" asp-for="Form.Rua"/>
-            <label for="Numero">Numero</label>
-            <input type="text" id="Numero" asp-for="Form.Numero"/>
-            <label for="Complemento">Complemento</label>
-            <input type="text" id="Complemento" asp-for="Form.Complemento"/>
-            <label for="CEP">CEP</label>
-            <input type="text" id="CEP" asp-for="Form.CEP"/>
-        
-            <button type="submit">Registrar</button>
-        </div>
-    </form>
+    <div class="card w-75 m-auto">
+        <h1 class="display-4">Registrar</h1>
+        <hr/>
+        <form method="post" style="display: flex; flex-direction: column; text-align: left;">
+            <div class="card-body p-2">
+                <h3 class="text-center p-1">Informações pessoais</h3>
+                <label for="Email">Email</label>
+                <input type="email" id="Email" class="form-control"
+                       asp-for="Form.Email"/>
+                <label for="Password">Password</label>
+                <input type="password" id="Password" class="form-control"
+                       asp-for="Form.Senha"/>
+                <label for="Nome">Nome</label>
+                <input type="text" id="Nome" class="form-control"
+                       asp-for="Form.Nome"/>
+
+                <h3 class="text-center p-1">Endereços</h3>
+                <div class="d-flex flex-column gap-2">
+                    @for (int i = 0; i < Model.Form.Enderecos.Count; i++)
+                    {
+                        <div class="d-flex flex-column w-100">
+                            <div class="card">
+                                <div class="card-header">
+                                    <b>Endereço @(i + 1)</b>
+                                </div>
+                                <div class="card-body d-flex flex-column p-1 
+                                        overflow-y-scroll" style="height: 25vh;">
+                                    <label for="Estado">Estado</label>
+                                    <input type="text" id="Estado" class="form-control" asp-for="Form.Enderecos[i].Estado"/>
+
+                                    <label for="Municipio">Município</label>
+                                    <input type="text" id="Municipio" class="form-control"
+                                           asp-for="Form.Enderecos[i].Municipio"/>
+
+                                    <label for="Rua">Rua</label>
+                                    <input type="text" id="Rua" class="form-control"
+                                           asp-for="Form.Enderecos[i].Rua"/>
+
+                                    <label for="Numero">Numero</label>
+                                    <input type="text" id="Numero" class="form-control"
+                                           asp-for="Form.Enderecos[i].Numero"/>
+
+                                    <label for="Complemento">Complemento</label>
+                                    <input type="text" id="Complemento" class="form-control"
+                                           asp-for="Form.Enderecos[i].Complemento"/>
+
+                                    <label for="CEP">CEP</label>
+                                    <input type="text" id="CEP" class="form-control"
+                                           asp-for="Form.Enderecos[i].CEP"/>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="submit">Registrar</button>
+            </div>
+        </form>
+    </div>
 </div>
