@@ -4,7 +4,7 @@ public class RespostaServico
 {
     public List<string> MensagensErro { get; set; } = new();
     public List<string> Mensagens { get; set; } = new();
-    public bool Ok { get; set; }
+    public bool Ok { get; set; } = true;
 
     public void AdicionarErro(string mensagem)
     {
@@ -22,6 +22,6 @@ public class RespostaServico
 
     public void AdicionarMensagem(string mensagem)
     {
-        MensagensErro.Add(mensagem);
+        Mensagens.Add(mensagem);
     }
 }

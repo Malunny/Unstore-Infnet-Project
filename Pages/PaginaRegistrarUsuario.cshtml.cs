@@ -33,10 +33,13 @@ public class PaginaRegistrarUsuario : PageModel
         var identidadeUsuario = await servicoConta.IniciarSessao(Form.Email, Form.Senha);
 
         if (identidadeUsuario == null)
-            return BadRequest("Alguma problema ocorreu ao entrar na conta, tente iniciar sessão com email e senha.");
+        {
+            RespostaValidacao.AdicionarErro("Alguma problema ocorreu ao entrar na conta, tente iniciar sessão com email e senha.");
+            return Page();
+        }
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identidadeUsuario);
         
-        return RedirectToPage("./Index");
+        return Redirect("/Index");
     }
 }

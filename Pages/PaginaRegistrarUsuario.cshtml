@@ -67,13 +67,23 @@
                                     <input type="text" id="CEP" class="form-control"
                                            asp-for="Form.Enderecos[i].CEP"/>
                                     <span asp-validation-for="Form.Enderecos[i].CEP" class="text-danger"></span>
-                                    
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <button type="submit">Registrar</button>
+                <div class="d-flex flex-column text-center">
+                    @if (!Model.RespostaValidacao.Ok)
+                    {
+                        foreach (var mensagemErro in Model.RespostaValidacao.MensagensErro)
+                        {
+                            <p class="text-danger">@mensagemErro</p>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary w-100">Registrar-se</button>
             </div>
         </form>
     </div>

@@ -61,6 +61,14 @@ public class ServicoConta
             if (!validacaoPedidoRegistro.Ok)
                 return validacaoPedidoRegistro;
         }
+
+        var usuarioJaExiste = await _contexto.Usuarios.AnyAsync(u => u.Email == pedidoRegistro.Email);
+
+        if (usuarioJaExiste)
+        {
+            respostaServico.AdicionarErro("Já existe usuário com esse email.");
+            return respostaServico;
+        }
         
         var cliente = AlimentarDadosCliente(pedidoRegistro);
 
@@ -77,7 +85,7 @@ public class ServicoConta
         Cliente cliente = new();
         
         cliente.Nome = pedidoRegistro.Nome;
-        cliente.Email = pedidoRegistro.Email;
+        cliente.Email = pedidoRegistro.Email.ToLower();
         cliente.Senha = pedidoRegistro.Senha;
 
         foreach (var enderecoFormulario in pedidoRegistro.Enderecos)
