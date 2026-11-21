@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Services;
+using UnstoreProjectADS.Core.Services.Compartilhado;
+using UnstoreProjectADS.Pages.Pedidos;
 using UnstoreProjectADS.Pages.Requests;
 
 namespace UnstoreProjectADS.Pages;
@@ -12,6 +14,7 @@ public class PaginaRegistrarUsuario : PageModel
 {
     [BindProperty] public bool IsInvalid { get; set; } = false;
     [BindProperty] public PedidoDeRegistro Form { get; set; } = new();
+    [BindProperty] public RespostaServico RespostaValidacao { get; set; } = new();
     public void OnGet()
     {
         
@@ -19,10 +22,13 @@ public class PaginaRegistrarUsuario : PageModel
 
     public async Task<IActionResult> OnPostAsync([FromServices] ServicoConta servicoConta)
     {
-        var usuarioCriado = await servicoConta.Registrar(Form);
+        if (!ModelState.IsValid)
+            return Page();
+        
+        RespostaValidacao = await servicoConta.Registrar(Form);
 
-        if (!usuarioCriado)
-            return BadRequest();
+        if (!RespostaValidacao.Ok)
+            return Page();
 
         var identidadeUsuario = await servicoConta.IniciarSessao(Form.Email, Form.Senha);
 
