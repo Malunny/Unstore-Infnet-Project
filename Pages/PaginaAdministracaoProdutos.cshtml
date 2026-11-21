@@ -22,11 +22,11 @@
         <form method="post" class="display-flex-columns paper-2">
             <label for="Nome">Nome</label>
             <input class="form-control" type="text" id="Nome" 
-                   readonly="@(!Model.User.VerificarCargoVendas() && Model.User.VerificarCargoAdministradorSistema())"
+                   readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Nome"/>
             <label for="Descricao">Descrição</label>
             <textarea class="form-control"
-                   type="text" id="Descricao" readonly="@(Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
+                   type="text" id="Descricao" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Descricao">
 
             </textarea>
@@ -46,8 +46,12 @@
         </form>
     </div>
     
-    <span class="alert-info">
-        @TempData["StatusProduto"]
+    <span class="text-success text-center p-1">
+        @TempData["ProdutoSalvo"]
+    </span>
+    
+    <span class="text-danger text-center p-1">
+        @TempData["ProdutoNaoSalvo"]
     </span>
 </div>
 
