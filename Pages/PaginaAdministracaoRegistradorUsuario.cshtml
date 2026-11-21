@@ -12,11 +12,38 @@
     <form method="post" style="display: flex; flex-direction: column; text-align: left;">
         <div class="mb-3 m-3">
             <label class="form-label" for="Nome">Nome</label>
-            <input class="form-control" type="text" id="Nome" asp-for="Funcionario.Nome"/>
+            <input class="form-control" type="text" id="Nome" asp-for="Formulario.Nome"/>
             <label class="form-label" for="Email">Email</label>
-            <input class="form-control" type="email" id="Email" asp-for="Funcionario.Email"/>
+            <input class="form-control" type="email" id="Email" asp-for="Formulario.Email"/>
             <label class="form-label" for="Password">Password</label>
-            <input class="form-control" type="password" id="Password" asp-for="Funcionario.Senha"/>
+            <input class="form-control" type="password" id="Password" asp-for="Formulario.Senha"/>
+            
+            <label class="form-label" for="Cargo">Cargo</label>
+            <select class="form-select" 
+                    id="Cargo"
+                    asp-for="Formulario.CargoId">
+                @foreach (var cargo in Model.Cargos)
+                {
+                    <option value="@cargo.Id">@cargo.Nome</option>
+                }
+            </select>
+        </div>
+        <div class="card-body d-flex flex-column">
+            @if (!string.IsNullOrEmpty(TempData["Salvo"]?.ToString()))
+            {
+                <b>Sucesso!</b>
+                <span class="text-success">@TempData["Salvo"]</span>
+            }            
+            @if (!Model.RespostaServico.Ok)
+            {
+                <b>Mensagens de erro</b>
+            }
+            @foreach (var mensagemErro in Model.RespostaServico.MensagensErro)
+            {
+                <span class="text-danger">
+                    @mensagemErro
+                </span>
+            }
         </div>
         
         <div class="card-footer d-flex flex-row-reverse">

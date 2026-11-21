@@ -2,10 +2,12 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Core.Enums;
+using UnstoreProjectADS.Core.Extensoes;
 using UnstoreProjectADS.Core.Services.Compartilhado;
 using UnstoreProjectADS.Dados;
 using UnstoreProjectADS.Pages.Pedidos;
-using UnstoreProjectADS.Pages.Requests;
+using UnstoreProjectADS.Pages.Pedidos.Registrar;
 
 namespace UnstoreProjectADS.Core.Services;
 
@@ -50,18 +52,21 @@ public class ServicoConta
         return new ClaimsPrincipal(identidade);
     }
 
-    public async Task<RespostaServico> Registrar(PedidoDeRegistro pedidoRegistro, bool aplicarValidacaoExtra = false)
+    public async Task<RespostaServico> RegistrarClienteAsync(PedidoDeRegistroCliente pedidoRegistro)
     {
         RespostaServico respostaServico = new();
+        
+        var validacaoPedidoRegistro = await ValidarPedidoDeRegistro(pedidoRegistro);
+        var validacaoEndereco = ValidarEnderecosDePedidoDeRegistro(pedidoRegistro);
 
-        if (aplicarValidacaoExtra)
+        if (!validacaoEndereco.Ok || !validacaoEndereco.Ok)
         {
-            var validacaoPedidoRegistro = ValidarPedidoDeRegistro(pedidoRegistro);
+            respostaServico.AdicionarVariosErros(validacaoEndereco.MensagensErro);
+            respostaServico.AdicionarVariosErros(validacaoPedidoRegistro.MensagensErro);
 
-            if (!validacaoPedidoRegistro.Ok)
-                return validacaoPedidoRegistro;
-        }
-
+            return respostaServico;
+        }        
+        
         var usuarioJaExiste = await _contexto.Usuarios.AnyAsync(u => u.Email == pedidoRegistro.Email);
 
         if (usuarioJaExiste)
@@ -80,7 +85,30 @@ public class ServicoConta
         return respostaServico;
     }
 
-    private Cliente AlimentarDadosCliente(PedidoDeRegistro pedidoRegistro)
+    public async Task<RespostaServico> RegistrarFuncionarioAsync(PedidoRegistroFuncionario pedidoRegistro)
+    {
+        RespostaServico respostaServico = new();
+
+        var validacaoPedidoRegistro = await ValidarPedidoDeRegistro(pedidoRegistro);
+        var validacaoCargos = await ValidarCargosDePedidoDeRegistroAsync(pedidoRegistro);
+
+        if (!validacaoCargos.Ok || !validacaoCargos.Ok)
+        {
+            respostaServico.AdicionarVariosErros(validacaoPedidoRegistro.MensagensErro);
+            respostaServico.AdicionarVariosErros(validacaoCargos.MensagensErro);
+
+            return respostaServico;
+        }
+
+        var funcionario = pedidoRegistro.ConverterParaFuncionario();
+        
+        await _contexto.Funcionarios.AddAsync(funcionario);
+        await _contexto.SaveChangesAsync();
+
+        return respostaServico;
+    }
+
+    private Cliente AlimentarDadosCliente(PedidoDeRegistroCliente pedidoRegistro)
     {
         Cliente cliente = new();
         
@@ -107,28 +135,63 @@ public class ServicoConta
         return cliente;
     }
 
-    private RespostaServico ValidarPedidoDeRegistro(PedidoDeRegistro pedidoRegistro)
+    private async Task<RespostaServico> ValidarPedidoDeRegistro(PedidoRegistro pedidoRegistro)
     {
         RespostaServico respostaServico = new();
 
-        if (string.IsNullOrEmpty(pedidoRegistro?.Nome))
-            respostaServico.AdicionarErro("Nome não pode ser vazio.");
-        if (string.IsNullOrEmpty(pedidoRegistro?.Senha))
-            respostaServico.AdicionarErro("Senha não pode ser vazia.");
-        if (pedidoRegistro?.Senha?.Length < 8)
-            respostaServico.AdicionarErro("Senha deve ter no mínimo 8 caracteres.");
-        if (pedidoRegistro?.Enderecos.Count < 1)
-            respostaServico.AdicionarErro("Ao menos um endereço deve ser cadastrado");
-
-        var validacaoEndereco = ValidarEnderecosDePedidoDeRegistro(pedidoRegistro);
+        bool nomeVazio = string.IsNullOrEmpty(pedidoRegistro?.Nome);
+        bool emailVazio = string.IsNullOrEmpty(pedidoRegistro?.Email);
+        bool senhaVazia = string.IsNullOrEmpty(pedidoRegistro?.Senha);
+        bool senhaMenorQueIdeal = pedidoRegistro?.Senha?.Length < 8;
         
-        if (!validacaoEndereco.Ok)
-            respostaServico.AdicionarVariosErros(validacaoEndereco.MensagensErro);
+        if (nomeVazio)
+            respostaServico.AdicionarErro("Nome não pode ser vazio.");
+        
+        if (emailVazio)
+            respostaServico.AdicionarErro("Email não pode ser vazio.");
+        
+        if (senhaVazia)
+            respostaServico.AdicionarErro("Senha não pode ser vazia.");
+        
+        if (senhaMenorQueIdeal)
+            respostaServico.AdicionarErro("Senha deve ter no mínimo 8 caracteres.");
+
+        if (!emailVazio)
+        {
+            var usuarioComMesmoEmailExiste = await _contexto.Usuarios
+                .AnyAsync(usuario => usuario.Email == pedidoRegistro.Email);
+            
+            if (usuarioComMesmoEmailExiste)
+                respostaServico.AdicionarErro("Esse e-mail está em uso.");
+        }
         
         return respostaServico;
     }
 
-    private RespostaServico ValidarEnderecosDePedidoDeRegistro(PedidoDeRegistro pedidoRegistro)
+    public async Task<RespostaServico> ValidarCargosDePedidoDeRegistroAsync(PedidoRegistroFuncionario pedidoRegistro)
+    {
+        RespostaServico respostaServico = new();
+        
+        var cargoId = pedidoRegistro.CargoId;
+        
+        var cargo = await _contexto.Cargos.FirstOrDefaultAsync(cargo => cargo.Id == cargoId);
+
+        if (cargo == null)
+        {
+            respostaServico.AdicionarErro("Não existe cargo com esse id.");
+            return respostaServico;
+        }
+
+        if (cargo.Nome == Cargos.Cliente.PegarNome())
+        {
+            respostaServico.AdicionarErro("Não se pode cadastrar um funcionácio com cargo de cliente.");
+            return respostaServico;
+        }
+        
+        return respostaServico;
+    }
+
+    private RespostaServico ValidarEnderecosDePedidoDeRegistro(PedidoDeRegistroCliente pedidoRegistro)
     {
         RespostaServico resposta = new();
         foreach (var endereco in pedidoRegistro.Enderecos)

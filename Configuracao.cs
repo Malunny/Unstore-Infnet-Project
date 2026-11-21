@@ -5,6 +5,7 @@ using UnstoreProjectADS.Core.Extensoes;
 using UnstoreProjectADS.Core.Services;
 using UnstoreProjectADS.Dados;
 using UnstoreProjectADS.Dados.Repositorios.Usuarios;
+using UnstoreProjectADS.Dados.Repositorios.Usuarios.Funcionarios.Cargos;
 
 namespace UnstoreProjectADS;
 
@@ -15,6 +16,7 @@ public static class Configuracao
         construtor.Services.AddTransient<ServicoConta>();
         construtor.Services.AddTransient<ServicoProduto>();
         construtor.Services.AddTransient<RepositorioUsuario>();
+        construtor.Services.AddTransient<RepositorioCargos>();
     }
 
     public static void AlimentarVariaveisDeAmbiente(this WebApplicationBuilder construtor)

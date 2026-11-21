@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Services;
 using UnstoreProjectADS.Core.Services.Compartilhado;
 using UnstoreProjectADS.Pages.Pedidos;
-using UnstoreProjectADS.Pages.Requests;
+using UnstoreProjectADS.Pages.Pedidos.Registrar;
 
 namespace UnstoreProjectADS.Pages;
 
 public class PaginaRegistrarUsuario : PageModel
 {
     [BindProperty] public bool IsInvalid { get; set; } = false;
-    [BindProperty] public PedidoDeRegistro Form { get; set; } = new();
+    [BindProperty] public PedidoDeRegistroCliente Form { get; set; } = new();
     [BindProperty] public RespostaServico RespostaValidacao { get; set; } = new();
     public void OnGet()
     {
@@ -25,7 +25,7 @@ public class PaginaRegistrarUsuario : PageModel
         if (!ModelState.IsValid)
             return Page();
         
-        RespostaValidacao = await servicoConta.Registrar(Form);
+        RespostaValidacao = await servicoConta.RegistrarClienteAsync(Form);
 
         if (!RespostaValidacao.Ok)
             return Page();
