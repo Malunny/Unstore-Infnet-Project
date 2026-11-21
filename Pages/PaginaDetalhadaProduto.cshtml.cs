@@ -20,6 +20,11 @@ public class PaginaDetalhadaProduto : PageModel
         
         Produto = produto;
     }
+
+    public IActionResult OnPostRetornar()
+    {
+        return RedirectToPage("/PaginaListagemProdutos");
+    }
     
     public async Task<IActionResult> OnPostAdicionarCarrinhoAsync([FromRoute] int produtoId,
         [FromServices] ContextoDados contextoDados,
