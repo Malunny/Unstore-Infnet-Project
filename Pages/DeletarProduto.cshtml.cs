@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Services;
 
 namespace UnstoreProjectADS.Pages;
 
+[Authorize(Policy = "AdministradoresProduto")]
 public class DeletarProduto : PageModel
 {
     [BindProperty(Name = "produtoId")] public int ProdutoId { get; set; }

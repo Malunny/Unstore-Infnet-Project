@@ -1,4 +1,5 @@
 @page "/cliente/carrinho"
+@using UnstoreProjectADS.Views.ViewComponents
 @model PaginaClienteCarrinho
 
 @{
@@ -7,21 +8,15 @@
 
 @if (Model.Cliente != null)
 {
-    <div class="paper-1">
-        <h1>Seu Carrinho</h1>
-        <div class="product-displayer">
-            <div class="product-displayer-content">
-                @foreach (var produto in Model?.Carrinho?.Produtos ?? [])
+    <div class="card">
+        <header class="card-header">
+            <h3>Seu Carrinho</h3>
+        </header>
+        <div class="card-body">
+            <div class="product-displayer gap-2 flex-grow-1 overflow-auto p-3">
+                @foreach (var produto in Model.Carrinho.Produtos)
                 {
-                    <div class="product-display">
-                        <h5 class="product-title">
-                            <a asp-area="" asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@produto.Id">
-                                @produto.Nome
-                            </a>
-                        </h5>
-                        <p>R$ @produto.Valor.ToString("F2")</p>
-                        <p>Quantidade no estoque: @produto.QuantidadeEstoque</p>
-                    </div>
+                    @await Component.InvokeAsync(typeof(CardProdutoViewComponent), produto)
                 }
             </div>
         </div>

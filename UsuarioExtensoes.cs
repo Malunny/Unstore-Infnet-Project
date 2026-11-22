@@ -13,6 +13,9 @@ public static class UsuarioExtensoes
     public static string? ColetarNome(this ClaimsPrincipal usuario) =>
         usuario.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
     
+    public static bool VerificarUsuarioCliente(this ClaimsPrincipal usuario) =>
+        usuario.IsInRole(Cargos.Cliente.PegarNome());
+    
     public static bool VerificarCargoFuncionario(this ClaimsPrincipal usuario) =>
         usuario.IsInRole(Cargos.Vendas.PegarNome()) ||
         usuario.IsInRole(Cargos.AdministradorSistema.PegarNome()) ||

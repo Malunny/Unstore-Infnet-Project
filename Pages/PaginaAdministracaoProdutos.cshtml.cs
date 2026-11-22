@@ -44,7 +44,10 @@ public class PaginaAdministracaoProdutos : PageModel
         var produtoFoiSalvo = await servicoProduto.SalvarProduto(Produto);
 
         if (!produtoFoiSalvo)
-            TempData["StatusProduto"] = "O produto não conseguiu ser salvo.";
+            TempData["ProdutoNaoSalvo"] = "O produto não conseguiu ser salvo.";
+        
+        if (produtoFoiSalvo)
+            TempData["ProdutoSalvo"] = "O produto foi salvo com sucesso.";
         
         return Page();
     }

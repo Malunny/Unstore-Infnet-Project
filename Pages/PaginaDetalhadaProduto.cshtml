@@ -21,7 +21,7 @@
             <div>
                 <h3>Preço</h3>
                 <p>
-                    R$ @Model.Produto.Valor.ToString("F2");
+                    R$ @Model.Produto.Valor.ToString("F2")
                 </p>
             </div>
             <div>
@@ -31,15 +31,20 @@
             </div>
         </div>
             
-        <div class="card-footer d-flex flex-row">
+        <div class="card-footer d-flex flex-row gap-1">
+            <form method="post" asp-page-handler="Comprar">
+                <button class="btn btn-primary" type="submit">
+                    Comprar
+                </button>
+            </form>
             <form method="post" asp-page-handler="AdicionarCarrinho">
-                <button type="submit">
+                <button class="btn btn-outline-primary" type="submit">
                     Adicionar no carrinho
                 </button>
             </form>
-            <form method="post" asp-page-handler="Comprar">
-                <button type="submit">
-                    Comprar
+            <form method="post" asp-page-handler="Retornar">
+                <button class="btn btn-outline-primary" type="submit">
+                    Retornar à lista
                 </button>
             </form>
         </div>
