@@ -14,7 +14,7 @@
         </header>
         <div class="card-body">
             <div class="product-displayer gap-2 flex-grow-1 overflow-auto p-3">
-                @foreach (var produto in Model.Carrinho.Produtos)
+                @foreach (var produto in Model.Carrinho.PegarProdutos())
                 {
                     @await Component.InvokeAsync(typeof(CardProdutoViewComponent), produto)
                 }

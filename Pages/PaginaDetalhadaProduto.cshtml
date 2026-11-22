@@ -24,6 +24,9 @@
                     R$ @Model.Produto.Valor.ToString("F2")
                 </p>
             </div>
+            <p>
+                Quantidade em estoque: @Model.Produto.QuantidadeEstoque
+            </p>
             <div>
                 <span class="alert-success">
                     @TempData["StatusCarrinho"]
@@ -32,7 +35,7 @@
         </div>
             
         <div class="card-footer d-flex flex-row gap-1">
-            <form method="post" asp-page-handler="Comprar">
+            <form method="post" asp-page-handler="AdicionarEComprar">
                 <button class="btn btn-primary" type="submit">
                     Comprar
                 </button>

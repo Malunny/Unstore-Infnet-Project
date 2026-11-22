@@ -20,10 +20,12 @@ public class PaginaClienteCarrinho : PageModel
         if (clienteEmail == null)
             return;
         
-        var cliente = await contextoDados.Clientes
-            .Include(cliente => cliente.Carrinho)
-            .ThenInclude(carrinho => carrinho.Produtos)
-            .FirstOrDefaultAsync(cliente => cliente.Email == clienteEmail);
+        var cliente = await contextoDados.Clientes.FirstOrDefaultAsync(cliente => cliente.Email == clienteEmail);
+        
+        var carrinho = await contextoDados.Carrinhos
+            .Include(carrinho => carrinho.ProdutosCarrinho)
+            .ThenInclude(produto => produto.Produto)
+            .FirstOrDefaultAsync(carrinho => carrinho.Id == cliente.CarrinhoId);
         
         Cliente = cliente;
         Carrinho = cliente?.Carrinho;

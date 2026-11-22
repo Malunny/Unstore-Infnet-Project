@@ -26,7 +26,7 @@ public class ContextoDados : DbContext
     public ContextoDados(DbContextOptions<ContextoDados> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=app.db");
+        optionsBuilder.UseSqlite("Data Source=app.db").LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,8 +61,18 @@ public class ContextoDados : DbContext
             .HasForeignKey<Cliente>(cliente => cliente.CarrinhoId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Carrinho>()
-            .HasMany(carrinho => carrinho.Produtos);
+        modelBuilder.Entity<ProdutoCarrinho>()
+            .HasOne(p => p.Carrinho)
+            .WithMany(c => c.ProdutosCarrinho)
+            .HasForeignKey(f => f.CarrinhoId);
+        
+        modelBuilder.Entity<ProdutoCarrinho>()
+            .HasOne(p => p.Produto)
+            .WithMany()
+            .HasForeignKey(p => p.ProdutoId);
+
+        modelBuilder.Entity<ProdutoCarrinho>()
+            .HasKey(p => new  { p.ProdutoId, p.CarrinhoId } );
 
         modelBuilder.Entity<ProdutoCompra>()
             .HasKey(pc => new { pc.ProdutoId, pc.CompraId });
