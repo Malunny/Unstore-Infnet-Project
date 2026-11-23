@@ -19,16 +19,18 @@
         }
     </header>
     <div class="card-body">
-        <form method="post" class="display-flex-columns paper-2">
+        <form method="post" class="display-flex-columns paper-2" enctype="multipart/form-data">
+            <label for="ImagemUpload" class="form-label">Escolha uma imagem para o produto</label>
+            <input type="file" asp-for="ArquivoImagem" class="form-control" accept="image/*" />
+            
             <label for="Nome">Nome</label>
-            <input class="form-control" type="text" id="Nome" 
+            <input class="form-control" type="text" id="Nome"
                    readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Nome"/>
             <label for="Descricao">Descrição</label>
             <textarea class="form-control"
                    type="text" id="Descricao" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    asp-for="Produto.Descricao">
-
             </textarea>
 
             <label for="Valor">Valor</label>
@@ -39,7 +41,7 @@
 
             <label for="QuantidadeEstoque">QuantidadeEstoque</label>
             <input class="form-control"
-                type="number" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
+                   type="number" readonly="@(!Model.User.VerificarCargoVendas() && !Model.User.VerificarCargoAdministradorSistema())"
                    id="QuantidadeEstoque" asp-for="Produto.QuantidadeEstoque"/>
 
             <button type="submit">Salvar</button>

@@ -1,29 +1,19 @@
 @using UnstoreProjectADS.Core.Extensoes
 @model UnstoreProjectADS.Views.ViewModels.ViewModelProduto
 
-@{
-    const int tamanhoMaximoDescricao = 50;
-
-    var descricao = Model.Descricao;
-    
-    if (tamanhoMaximoDescricao < descricao.Length)
-    {
-        descricao = descricao.Substring(0, tamanhoMaximoDescricao).Trim() + "...";
-    }
-}
-
 <div class="card product-display">
+    @if (!string.IsNullOrWhiteSpace(Model.ImagemUrl))
+    {
+        <a asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@Model.Id">
+            <img class="product-image" src="@Url.Content(Model.ImagemUrl)" alt="@Model.Nome" loading="lazy" />
+        </a>
+    }
     <div class="card-body">
-        <h5 class="card-title text-truncate">
-            <a asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@Model.Id">
-                @Model.Nome
-            </a>
+        <h5 class="card-title">
+            <a asp-page="/PaginaDetalhadaProduto" asp-route-produtoId="@Model.Id">@Model.Nome</a>
         </h5>
-        <b>Descrição</b>
-        <p class="card-text text-muted small">@descricao</p>
     </div>
     <div class="card-footer">
-        <b>R$ @Model.Valor.TransformarEmMonetario()</b>
-        <p class="text-muted">Estoque: @Model.QuantidadeEmEstoque</p>
+        <b>@Model.Valor.TransformarEmMonetario()</b>
     </div>
 </div>

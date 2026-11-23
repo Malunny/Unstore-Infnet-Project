@@ -22,6 +22,7 @@ public class ContextoDados : DbContext
     public DbSet<MotivoReclamacao> MotivosReclamacoes { get; set; }
     public DbSet<Conversa> Conversas { get; set; }
     public DbSet<Mensagem> Mensagens { get; set; }
+    public DbSet<Imagem> Imagens { get; set; }
 
     public ContextoDados(DbContextOptions<ContextoDados> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,6 +43,7 @@ public class ContextoDados : DbContext
         modelBuilder.Entity<MotivoReclamacao>().Property(m => m.Id).UseAutoincrement();
         modelBuilder.Entity<Conversa>().Property(c => c.Id).UseAutoincrement();
         modelBuilder.Entity<Mensagem>().Property(m => m.Id).UseAutoincrement();
+        modelBuilder.Entity<Imagem>().Property(i => i.Id).UseAutoincrement();
         
         modelBuilder.Entity<Funcionario>()
             .HasOne(f => f.Cargo)

@@ -14,6 +14,7 @@ public class PaginaAdministracaoProdutos : PageModel
 
     [BindProperty(SupportsGet = true, Name = "produtoId")] public int ProdutoId { get; set; } = 0;
     [BindProperty] public Produto Produto { get; set; }
+    [BindProperty] public IFormFile ArquivoImagem { get; set; }
     public async Task OnGetAsync([FromServices] ServicoProduto servicoProduto)
     {
         if (ProdutoId == 0) 
@@ -40,7 +41,7 @@ public class PaginaAdministracaoProdutos : PageModel
         if (Produto.Id == 0)
             Produto.Id = ProdutoId;
         
-        var produtoFoiSalvo = await servicoProduto.SalvarProduto(Produto);
+        var produtoFoiSalvo = await servicoProduto.SalvarProdutoComImagem(Produto, ArquivoImagem);
 
         if (!produtoFoiSalvo)
             TempData["ProdutoNaoSalvo"] = "O produto não conseguiu ser salvo.";

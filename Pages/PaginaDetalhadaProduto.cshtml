@@ -1,4 +1,5 @@
 @page "/produtos/{produtoId:int}"
+@using UnstoreProjectADS.Views.ViewModels
 @model PaginaDetalhadaProduto
 
 @{
@@ -7,11 +8,19 @@
 
 @if (Model?.Produto != null)
 {
+    var imagemUrl = new ViewModelProduto(Model.Produto).ImagemUrl;
     <div class="card shadow-sm">
         <header class="card-header">
             <h1>@Model.Produto.Nome</h1>
         </header>
         <div class="card-body">
+            @if (!string.IsNullOrWhiteSpace(imagemUrl))
+            {
+                <img class="product-image img-fluid" 
+                     style="height: 20em;"
+                     src="@Url.Content(imagemUrl)" 
+                     alt="@Model.Produto.Nome" />
+            }
             <div style="width: 50%;">
                 <h3>Descrição</h3>
                 <p>

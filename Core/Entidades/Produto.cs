@@ -7,6 +7,8 @@ public class Produto
     public string Descricao { get; set; } = string.Empty;
     public decimal Valor { get; set; }
     public int QuantidadeEstoque { get; set; }
+    public Imagem? Imagem { get; set; }
+    public int? ImagemId { get; set; }
 
     public int? DescontoProdutoId { get; set; }
     public DescontoProduto? Desconto { get; set; }

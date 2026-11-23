@@ -4,8 +4,10 @@ using UnstoreProjectADS.Core.Enums;
 using UnstoreProjectADS.Core.Extensoes;
 using UnstoreProjectADS.Core.Services;
 using UnstoreProjectADS.Core.Services.Compra;
+using UnstoreProjectADS.Core.Services.Imagem;
 using UnstoreProjectADS.Dados;
 using UnstoreProjectADS.Dados.Repositorios.Compras;
+using UnstoreProjectADS.Dados.Repositorios.Produtos;
 using UnstoreProjectADS.Dados.Repositorios.Usuarios;
 using UnstoreProjectADS.Dados.Repositorios.Usuarios.Funcionarios.Cargos;
 
@@ -20,7 +22,9 @@ public static class Configuracao
         construtor.Services.AddTransient<RepositorioUsuario>();
         construtor.Services.AddTransient<RepositorioCargos>();
         construtor.Services.AddTransient<ServicoCompra>();
+        construtor.Services.AddTransient<ServicoImagem>();
         construtor.Services.AddTransient<RepositorioCompra>();
+        construtor.Services.AddTransient<RepositorioProdutos>();
     }
 
     public static void AlimentarVariaveisDeAmbiente(this WebApplicationBuilder construtor)

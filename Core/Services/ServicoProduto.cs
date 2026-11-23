@@ -1,42 +1,38 @@
 using Microsoft.EntityFrameworkCore;
 using UnstoreProjectADS.Core.Entidades;
+using UnstoreProjectADS.Core.Services.Imagem;
 using UnstoreProjectADS.Dados;
+using UnstoreProjectADS.Dados.Repositorios.Produtos;
 
 namespace UnstoreProjectADS.Core.Services;
 
 public class ServicoProduto
 {
     private readonly ContextoDados _contexto;
+    private readonly ServicoImagem _servicoImagem;
+    private readonly RepositorioProdutos _repositorioProdutos;
+    
     private readonly int _tamanhoMinimoPagina = 5;
     private readonly int _tamanhoMaximoPagina = 25;
-    public ServicoProduto(ContextoDados contexto)
+    public ServicoProduto(ContextoDados contexto, ServicoImagem servicoImagem, RepositorioProdutos repositorioProdutos)
     {
         _contexto = contexto;
+        _servicoImagem = servicoImagem;
+        _repositorioProdutos = repositorioProdutos;
     }
 
     public async Task<ICollection<Produto>?> ObterPagina(int numeroPagina, int tamanhoPagina)
     {
         ValidarParametrosPagina(tamanhoPagina, numeroPagina);
 
-        var registrosPulados = (numeroPagina - 1) * tamanhoPagina;
-
-        var paginaProdutos = await _contexto.Produtos.Skip(registrosPulados).Take(tamanhoPagina).ToListAsync();
-        
-        return paginaProdutos;
+        return await _repositorioProdutos.ObterPagina(numeroPagina, tamanhoPagina);
     }
     
     public async Task<ICollection<Produto>?> ObterPagina(int numeroPagina, int tamanhoPagina, string textoPesquisa)
     {
         ValidarParametrosPagina(tamanhoPagina, numeroPagina);
 
-        var registrosPulados = (numeroPagina - 1) * tamanhoPagina;
-
-        var paginaProdutos = await _contexto.Produtos
-            .Where(produto => EF.Functions.Like(produto.Nome, $"%{textoPesquisa}%"))
-            .Skip(registrosPulados).Take(tamanhoPagina)
-                    .ToListAsync();
-        
-        return paginaProdutos;
+        return await _repositorioProdutos.ObterPagina(numeroPagina, tamanhoPagina, textoPesquisa);
     }
 
     public async Task<bool> DeletarProduto(int produtoId)
@@ -80,6 +76,32 @@ public class ServicoProduto
 
         return true;
     }
+    
+    public async Task<bool> SalvarProdutoComImagem(Produto produto, IFormFile arquivoImagem)
+    {
+        var respostaImagem = await _servicoImagem.SalvarImagem(arquivoImagem);
+
+        if (!respostaImagem.Ok)
+            return false;
+        
+        produto.Imagem = respostaImagem.Dados;
+        produto.ImagemId = respostaImagem.Dados?.Id;
+        
+        if (produto.Id < 1)
+        {
+            _contexto.Produtos.Add(produto);
+        
+            await _contexto.SaveChangesAsync();
+
+            return true;
+        }
+        
+        _contexto.Attach(produto).State = EntityState.Modified;
+        
+        await _contexto.SaveChangesAsync();
+
+        return true;
+    }
 
     public async Task<int> ObterQuantidadePaginas(int tamanhoPagina)
     {
@@ -105,8 +127,8 @@ public class ServicoProduto
     {
         if (id <= 0)
             return null;
-        
-        return await _contexto.Produtos.FirstOrDefaultAsync(p => p.Id == id);
+
+        return await _repositorioProdutos.ObterPorIdAsync(id);
     }
     
     #region Métodos Auxiliares
