@@ -12,4 +12,15 @@ public class Compra
     
     public ICollection<ProdutoCompra> ProdutosCompra { get; set; } = new List<ProdutoCompra>();
     public ICollection<AvaliacaoProduto> AvaliacoesReferenciadas { get; set; } = new List<AvaliacaoProduto>();
+
+    public decimal CalcularValorTotal()
+    {
+        decimal valorTotal = 0;
+        foreach (var produtoCompra in ProdutosCompra)
+        {
+            valorTotal += produtoCompra.ValorNoMomento;
+        }
+
+        return valorTotal;
+    }
 }

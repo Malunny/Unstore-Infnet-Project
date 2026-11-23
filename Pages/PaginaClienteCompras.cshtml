@@ -1,0 +1,46 @@
+@page "/cliente/compras"
+@model PaginaClienteCompras
+
+@{
+    ViewData["Title"] = "Unstore - Minhas compras";
+}
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                Data de realização
+            </th>
+            <th>
+                Valor total
+            </th>
+            <th>
+                Produtos
+            </th>
+            <th>
+                Estado da entrega
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var compra in Model.Compras)
+        {
+            <tr>
+                <td>
+                    @compra.RealizadaEm
+                </td>
+                <td>
+                    @compra.ValorTotal
+                </td>
+                <td>
+                    @compra.ProdutosComprados
+                </td>
+                <td>
+                    @compra.EstadoEncomenda
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
