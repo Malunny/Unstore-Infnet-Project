@@ -8,7 +8,7 @@ using UnstoreProjectADS.Dados;
 
 namespace UnstoreProjectADS.Pages;
 
-[Authorize(Roles = "Cliente, AdministradorSistema")]
+[Authorize(Roles = "Cliente")]
 public class PaginaClienteCarrinho : PageModel
 {
     public Cliente? Cliente { get; set; }

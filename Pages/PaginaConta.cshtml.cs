@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Entidades;
 using UnstoreProjectADS.Dados.Repositorios.Usuarios;
 
 namespace UnstoreProjectADS.Pages;
 
+[Authorize]
 public class PaginaConta : PageModel
 {
     public Usuario? Usuario { get; set; }

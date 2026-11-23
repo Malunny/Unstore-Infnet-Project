@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Entidades;
 using UnstoreProjectADS.Core.Services.Compra;
@@ -7,6 +8,7 @@ using UnstoreProjectADS.Dados.Repositorios.Usuarios;
 
 namespace UnstoreProjectADS.Pages;
 
+[Authorize(Roles = "Cliente")]
 public class PaginaClienteCompras : PageModel
 {
     public List<RespostaCompraDetalhada> Compras { get; set; } = new();
