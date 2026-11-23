@@ -51,14 +51,13 @@ public class PaginaDetalhadaProduto : PageModel
         if (Produto == null)
             return Page();
 
-        var produtoCarrinho = new ProdutoCarrinho
-        {
-            ProdutoId = Produto.Id,
-            CarrinhoId = cliente.Carrinho.Id,
-            Quantidade = 1
-        };
+        var produto = cliente.Carrinho.ProdutosCarrinho.FirstOrDefault(pc => pc.ProdutoId == Produto.Id);
+
+        if (produto != null)
+            return Page();
+
+        cliente.Carrinho.ProdutosCarrinho.Add(new ProdutoCarrinho { ProdutoId = Produto.Id, CarrinhoId = cliente.Carrinho.Id, Quantidade = 1 });
         
-        cliente.Carrinho.ProdutosCarrinho.Add(produtoCarrinho);
         await contextoDados.SaveChangesAsync();
 
         TempData["StatusCarrinho"] = "Adicionado ao carrinho!";
@@ -89,15 +88,14 @@ public class PaginaDetalhadaProduto : PageModel
 
         if (Produto == null)
             return Page();
-
-        var produtoCarrinho = new ProdutoCarrinho
-        {
-            ProdutoId = Produto.Id,
-            CarrinhoId = cliente.Carrinho.Id,
-            Quantidade = 1
-        };
         
-        cliente.Carrinho.ProdutosCarrinho.Add(produtoCarrinho);
+        var produto = cliente.Carrinho.ProdutosCarrinho.FirstOrDefault(pc => pc.ProdutoId == Produto.Id);
+
+        if (produto != null)
+            produto.Quantidade++;
+        else
+            return Page();
+                
         await contextoDados.SaveChangesAsync();
 
         TempData["StatusCarrinho"] = "Adicionado ao carrinho!";
