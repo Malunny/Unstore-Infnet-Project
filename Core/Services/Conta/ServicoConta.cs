@@ -19,8 +19,11 @@ public class ServicoConta
         _contexto = context;
     }
 
-    public async Task<ClaimsPrincipal?> IniciarSessao(string email, string password)
+    public async Task<RespostaServicoComDados<ClaimsPrincipal?>> IniciarSessao(string email, string password)
     {
+        var resposta = new RespostaServicoComDados<ClaimsPrincipal?>();
+        var erroEmailOuSenha = "Email ou senha incorretos.";
+        
         Usuario? usuario = await _contexto.Clientes.FirstOrDefaultAsync(cliente => cliente.Email == email);
         
         if (usuario == null)
@@ -29,10 +32,16 @@ public class ServicoConta
                 .FirstOrDefaultAsync(funcionario => funcionario.Email == email);
 
         if (usuario == null)
-            return null;
+        {
+            resposta.AdicionarErro(erroEmailOuSenha);
+            return resposta;
+        }
 
         if (usuario.Senha != password)
-            return null;
+        {
+            resposta.AdicionarErro(erroEmailOuSenha);
+            return resposta;
+        }
 
         var claims = new List<Claim>
         {
@@ -49,7 +58,9 @@ public class ServicoConta
 
         var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         
-        return new ClaimsPrincipal(identidade);
+        resposta.Dados = new ClaimsPrincipal(identidade);
+
+        return resposta;
     }
 
     public async Task<RespostaServico> RegistrarClienteAsync(PedidoDeRegistroCliente pedidoRegistro)

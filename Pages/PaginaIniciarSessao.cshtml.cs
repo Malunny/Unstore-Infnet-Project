@@ -13,8 +13,7 @@ namespace UnstoreProjectADS.Pages;
 [AllowAnonymous]
 public class PaginaIniciarSessao : PageModel
 {
-    [BindProperty]
-    public LoginRequest Form { get; set; }
+    [BindProperty] public LoginRequest Form { get; set; }
     public void OnGet()
     {
         
@@ -22,12 +21,15 @@ public class PaginaIniciarSessao : PageModel
 
     public async Task<IActionResult> OnPostAsync([FromServices] ServicoConta servicoConta)
     {
-        var identidadeUsuario = await servicoConta.IniciarSessao(Form.Email, Form.Password);
+        var respostaIniciarSessao = await servicoConta.IniciarSessao(Form.Email, Form.Password);
 
-        if (identidadeUsuario == null)
-            return BadRequest();
-        
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identidadeUsuario);
+        if (!respostaIniciarSessao.Ok)
+        {
+            TempData["ErrosInicioSessao"] = string.Join('\n', respostaIniciarSessao.MensagensErro);
+            return Page();
+        }
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, respostaIniciarSessao.Dados!);
 
         return Redirect("/Index");
     }

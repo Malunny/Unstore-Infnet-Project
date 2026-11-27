@@ -21,8 +21,11 @@
                 <input type="password" 
                        class="form-control"
                        id="Password" asp-for="Form.Password"/>
+                <p class="text-danger">
+                    @TempData["ErrosInicioSessao"]
+                </p>
             </div>
-        
+            
             
             <button class="btn btn-primary m-1" style="width: 98.5%;" 
                 type="submit">Login</button>
