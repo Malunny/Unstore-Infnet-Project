@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnstoreProjectADS.Core.Entidades;
 using UnstoreProjectADS.Core.Services;
+using UnstoreProjectADS.Dados.Repositorios.Produtos;
 
 namespace UnstoreProjectADS.Pages;
 
 [Authorize(Policy = "AdministradoresProduto")]
-public class PaginaListagemProdutoAdministracao : PageModel
+public class PaginaListagemProdutoAdministracao(
+    RepositorioProdutos repositorioProdutos,
+    ServicoProduto servicoProduto) : PageModel
 {
     public ICollection<Produto> Produtos { get; set; }
 
@@ -18,7 +21,8 @@ public class PaginaListagemProdutoAdministracao : PageModel
     
     public bool PossuiPaginaAnterior => NumeroPagina > 1;
     public bool PossuiProximaPagina { get; set; }
-    public async Task OnGetAsync([FromServices] ServicoProduto servicoProduto)
+    
+    public async Task OnGetAsync()
     {
         if (NumeroPagina < 1) 
             NumeroPagina = 1;
@@ -27,12 +31,12 @@ public class PaginaListagemProdutoAdministracao : PageModel
 
         if (TextoPequisa != null)
         {
-            produtos = await servicoProduto.ObterPagina(NumeroPagina, TamanhoPagina, TextoPequisa);
+            produtos = await repositorioProdutos.ObterPagina(NumeroPagina, TamanhoPagina, TextoPequisa);
             QuantidadePaginas = await servicoProduto.ObterQuantidadePaginas(TamanhoPagina, TextoPequisa);    
         }
         else
         {
-            produtos = await servicoProduto.ObterPagina(NumeroPagina, TamanhoPagina);
+            produtos = await repositorioProdutos.ObterPagina(NumeroPagina, TamanhoPagina);
             QuantidadePaginas = await servicoProduto.ObterQuantidadePaginas(TamanhoPagina);    
         }
         

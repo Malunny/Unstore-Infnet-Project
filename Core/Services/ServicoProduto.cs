@@ -20,33 +20,6 @@ public class ServicoProduto
         _servicoImagem = servicoImagem;
         _repositorioProdutos = repositorioProdutos;
     }
-
-    public async Task<ICollection<Produto>?> ObterPagina(int numeroPagina, int tamanhoPagina)
-    {
-        ValidarParametrosPagina(tamanhoPagina, numeroPagina);
-
-        return await _repositorioProdutos.ObterPagina(numeroPagina, tamanhoPagina);
-    }
-    
-    public async Task<ICollection<Produto>?> ObterPagina(int numeroPagina, int tamanhoPagina, string textoPesquisa)
-    {
-        ValidarParametrosPagina(tamanhoPagina, numeroPagina);
-
-        return await _repositorioProdutos.ObterPagina(numeroPagina, tamanhoPagina, textoPesquisa);
-    }
-
-    public async Task<bool> DeletarProduto(int produtoId)
-    {
-        var produto = await ObterPorId(produtoId);
-
-        if (produto == null)
-            return false;
-        
-        _contexto.Produtos.Remove(produto);
-        await _contexto.SaveChangesAsync();
-        
-        return true;
-    }
     
     public async Task<bool> PaginaPossuiRegistros(int numeroPagina, int tamanhoPagina)
     {
@@ -57,24 +30,6 @@ public class ServicoProduto
         var possuiRegistros = await _contexto.Produtos.Skip(registrosPulados).Take(tamanhoPagina).AnyAsync();
         
         return possuiRegistros;
-    }
-
-    public async Task<bool> SalvarProduto(Produto produto)
-    {
-        if (produto.Id < 1)
-        {
-            _contexto.Produtos.Add(produto);
-        
-            await _contexto.SaveChangesAsync();
-
-            return true;
-        }
-        
-        _contexto.Attach(produto).State = EntityState.Modified;
-        
-        await _contexto.SaveChangesAsync();
-
-        return true;
     }
     
     public async Task<bool> SalvarProdutoComImagem(Produto produto, IFormFile arquivoImagem)
